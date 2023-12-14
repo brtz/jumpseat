@@ -1,0 +1,44 @@
+version: "3"
+
+networks:
+  jumpseat:
+
+services:
+  redis:
+    image: redis:7
+    restart: on-failure
+    ports:
+      - 6379:6379
+    networks:
+      - jumpseat
+
+  db:
+    image: postgres:latest
+    restart: on-failure
+    environment:
+      POSTGRES_USER: pg-jumpseat-app
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: jumpseat_development
+    ports:
+      - 5432:5432
+    networks:
+      - jumpseat
+    #volumes:
+    #  - "./tmp/data/:/var/lib/postgresql/data"
+
+  #adminer:
+  #  image: adminer:4
+  #  restart: always
+  #  ports:
+  #    - 8080:8080
+
+  app:
+    build: ./
+    restart: always
+    env_file: .env.container
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    networks:
+      - jumpseat
