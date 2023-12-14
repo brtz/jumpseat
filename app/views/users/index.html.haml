@@ -14,6 +14,7 @@
         %th Last name
         %th Position
         %th Admin?
+        %th Locked at
     %tbody
       - @users.each do |user|
         %tr
@@ -31,6 +32,8 @@
             = user.current_position
           %td
             = user.admin
+          %td
+            = user.locked_at
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

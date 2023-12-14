@@ -13,5 +13,5 @@
 User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true) if User.find_by("email='admin@jumpseat'").nil?
 
 if ENV["RAILS_ENV"] == "development"
-
+  basic_user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false)
 end

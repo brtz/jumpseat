@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :access_granted
 
   # GET /users
   def index
@@ -23,8 +24,6 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    return head(:forbidden) unless @current_role == "admin"
-
     @user = User.new(user_params)
 
     if @user.save
@@ -36,8 +35,6 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    return head(:forbidden) unless @current_role == "admin"
-
     if @user.update(user_params)
       redirect_to users_path, notice: "User was successfully updated."
     else
@@ -47,8 +44,6 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    return head(:forbidden) unless @current_role == "admin"
-
     return head(:conflict) if @user.id == @current_user.id
 
     @user.destroy
@@ -64,5 +59,9 @@ class UsersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def user_params
       params.require(:user).permit(:page, :email, :password, :first_name, :middle_name, :last_name, :current_position, :admin)
+    end
+
+    def access_granted
+      return head(:forbidden) unless @current_role == "admin"
     end
 end
