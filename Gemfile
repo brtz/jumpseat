@@ -71,15 +71,23 @@ group :test do
 end
 
 gem "async"
+gem "bootstrap", "~> 4.3.1"
 gem "brakeman"
 gem "bundler-audit"
 gem "devise"
 gem "dotenv-rails"
+gem "haml"
+gem "haml-rails"
+gem "jquery-rails"
+gem "kaminari"
 gem "oj"
 gem "prometheus-client"
 gem "rack-attack"
 gem "redis"
+gem "redis-session-store"
 gem "rubocop", require: false
 gem "rubocop-rails", require: false
 gem "rubocop-rails_config", require: false
+gem "sass-rails"
 gem "securerandom"
+gem "simple_form", "~> 5.3.0"

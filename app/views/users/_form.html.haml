@@ -1,0 +1,12 @@
+= simple_form_for @user do |f|
+  .row
+    .col-md-12
+    
+      = f.input :email
+      = f.input :first_name
+      = f.input :middle_name
+      = f.input :last_name
+      = f.input :current_position, collection: [:trainee, :apprentice, :employee, :lead, :management]
+      = f.input :admin, collection: [:true, :false]
+      
+  = f.button :submit, class: 'btn btn-success'

@@ -1,0 +1,9 @@
+%nav.col-md-1.d-md-block.bg-dark.sidebar
+  .sidebar-sticky.pt-0.border-right
+    %ul.nav.flex-column.list-group.list-group-flush.p-3
+      - if @current_role == "admin"
+        %br
+        = link_to 'Users', users_path, class: 'list-group-item list-group-item-action'
+      
+    %ul.nav.flex-column.list-group.list-group-flush.p-3
+        
