@@ -10,8 +10,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true) if User.find_by("email='admin@jumpseat'").nil?
+admin_tenant = Tenant.create(name: "Admin Tenant") if Tenant.find_by("name='Admin Tenant'").nil?
+admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
 
 if ENV["RAILS_ENV"] == "development"
-  basic_user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false)
+  acme = Tenant.create(name: "ACME")
+  basic_user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
 end

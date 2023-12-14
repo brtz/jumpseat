@@ -12,6 +12,7 @@
         %th First name
         %th Middle name
         %th Last name
+        %th Tenant
         %th Position
         %th Admin?
         %th Locked at
@@ -28,6 +29,8 @@
             = user.middle_name
           %td
             = user.last_name
+          %td
+            = user.tenant.name
           %td
             = user.current_position
           %td
