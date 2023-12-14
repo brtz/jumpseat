@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all.order("created_at ASC").page(@page)
+    @users = User.all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: User.all }
