@@ -62,6 +62,6 @@ class UsersController < ApplicationController
     end
 
     def access_granted
-      return head(:forbidden) unless @current_role == "admin"
+      head(:forbidden) unless @current_role == "admin"
     end
 end

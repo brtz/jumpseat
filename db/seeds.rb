@@ -11,10 +11,10 @@
 #   end
 
 admin_tenant = Tenant.create(name: "Admin Tenant") if Tenant.find_by("name='Admin Tenant'").nil?
-admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
+User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
 
 if ENV["RAILS_ENV"] == "development"
   acme = Tenant.create(name: "ACME")
-  basic_user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
-  location1 = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
+  User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
+  Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
 end
