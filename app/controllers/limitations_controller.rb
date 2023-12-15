@@ -1,0 +1,67 @@
+# frozen_string_literal: true
+
+class LimitationsController < ApplicationController
+  before_action :set_limitation, only: [:edit, :update, :destroy]
+  before_action :access_granted
+
+  # GET /limitations
+  def index
+    @limitations = Limitation.all.page(@page)
+    respond_to do |format|
+      format.html
+      format.json { render json: Limitation.all }
+    end
+  end
+
+  # GET /limitations/new
+  def new
+    @limitation = Limitation.new
+  end
+
+  # GET /limitations/1/edit
+  def edit
+  end
+
+  # POST /limitations
+  def create
+    @limitation = Limitation.new(limitation_params)
+
+    if @limitation.save
+      redirect_to limitations_path, notice: "Limitation was successfully created."
+    else
+      puts limitation_params
+      render :new
+    end
+  end
+
+  # PATCH/PUT /limitations/1
+  def update
+    if @limitation.update(limitation_params)
+      redirect_to limitations_path, notice: "Limitation was successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  # DELETE /limitations/1
+  def destroy
+    @limitation.destroy
+
+    redirect_to limitations_url, notice: "Limitation was successfully deleted."
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_limitation
+      @limitation = Limitation.find(params[:id])
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def limitation_params
+      params.require(:limitation).permit(:page, :name, :start_date, :end_date)
+    end
+
+    def access_granted
+      head(:forbidden) unless @current_role == "admin"
+    end
+end

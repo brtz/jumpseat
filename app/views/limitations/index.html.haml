@@ -1,0 +1,35 @@
+%h2
+  Limitations
+  - if @current_role == "admin"
+    = link_to 'New Limitation', new_limitation_path, class: 'btn btn-primary float-right'
+.clearfix
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Start date
+        %th End date
+        %th Assigned to
+    %tbody
+      - @limitations.each do |limitation|
+        %tr
+          %td
+            = limitation.id
+          %td
+            = limitation.name
+          %td
+            = limitation.start_date
+          %td
+            = limitation.end_date
+          %td
+            = limitation.limitable_type
+            = limitation.limitable_id
+          %td
+            .d-flex.justify-content-end
+              - if @current_role == "admin"
+                = link_to 'Edit', edit_limitation_path(limitation), class: 'btn btn-sm btn-outline-info mr-2'
+                = link_to 'Delete', limitation_path(limitation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
+.d-flex.justify-content-center.mt-3
+  = paginate @limitations

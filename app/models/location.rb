@@ -15,6 +15,7 @@ class Location < ApplicationRecord
   # associations
   belongs_to :tenant
   has_many :floors, dependent: :destroy
+  has_many :limitations, as: :limitable
 
   encrypts :name
   encrypts :street

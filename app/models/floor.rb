@@ -8,6 +8,7 @@ class Floor < ApplicationRecord
   # associations
   belongs_to :location
   has_many :rooms, dependent: :destroy
+  has_many :limitations, as: :limitable
 
   encrypts :name
   encrypts :level

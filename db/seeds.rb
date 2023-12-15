@@ -21,4 +21,7 @@ if ENV["RAILS_ENV"] == "development"
   darkroom = Room.create(name: "Darkroom", floor: thirteenth)
   desk1 = Desk.create(name: "Desk 1", room: darkroom, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
   desk2 = Desk.create(name: "Desk 2", room: darkroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
+  christmas = Limitation.create(name: "ACME Christmas", start_date: "2023-12-24T000000", end_date: "2023-12-27T000000")
+  acme.limitation_ids = [christmas.id]
+  acme.save
 end

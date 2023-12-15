@@ -1,0 +1,9 @@
+= simple_form_for @limitation do |f|
+  .row
+    .col-md-12
+    
+      = f.input :name
+      = f.input :start_date, as: :datetime, html5: true
+      = f.input :end_date, as: :datetime, html5: true
+
+  = f.button :submit, class: 'btn btn-success'

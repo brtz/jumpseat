@@ -9,5 +9,6 @@
       = f.input :width
       = f.input :height
       = f.input :required_position, collection: [:trainee, :apprentice, :employee, :lead, :management]
+      = f.association :limitations, collection: Limitation.all, as: :check_boxes, label_method: :name, value_method: :id, include_blank: false
 
   = f.button :submit, class: 'btn btn-success'

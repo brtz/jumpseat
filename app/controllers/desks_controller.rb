@@ -57,7 +57,7 @@ class DesksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def desk_params
-      params.require(:desk).permit(:page, :name, :room_id, :pos_x, :pos_y, :width, :height, :required_position)
+      params.require(:desk).permit(:page, :name, :room_id, :pos_x, :pos_y, :width, :height, :required_position, :limitation_ids => [])
     end
 
     def access_granted

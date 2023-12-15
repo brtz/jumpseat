@@ -7,6 +7,7 @@ class Desk < ApplicationRecord
   
   # associations
   belongs_to :room
+  has_many :limitations, as: :limitable
 
   encrypts :name
 end

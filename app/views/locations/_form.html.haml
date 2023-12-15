@@ -10,5 +10,6 @@
       = f.input :state
       = f.input :country
       = f.input :tenant_id, collection: Tenant.all, label_method: :name, value_method: :id
+      = f.association :limitations, collection: Limitation.all, as: :check_boxes, label_method: :name, value_method: :id, include_blank: false
       
   = f.button :submit, class: 'btn btn-success'
