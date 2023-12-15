@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_14_223620) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_14_233515) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -18,6 +18,21 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_223620) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "positions", ["trainee", "apprentice", "employee", "lead", "management"]
+
+  create_table "locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "street"
+    t.string "house_number"
+    t.string "zip_code"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "name"
+    t.uuid "tenant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_locations_on_name", unique: true
+    t.index ["tenant_id"], name: "index_locations_on_tenant_id"
+  end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -46,4 +61,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_223620) do
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  add_foreign_key "locations", "tenants"
 end

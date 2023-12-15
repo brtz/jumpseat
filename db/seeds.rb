@@ -16,4 +16,5 @@ admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "J
 if ENV["RAILS_ENV"] == "development"
   acme = Tenant.create(name: "ACME")
   basic_user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
+  location1 = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
 end

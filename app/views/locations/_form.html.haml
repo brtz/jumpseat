@@ -1,0 +1,14 @@
+= simple_form_for @location do |f|
+  .row
+    .col-md-12
+    
+      = f.input :name
+      = f.input :street
+      = f.input :house_number
+      = f.input :zip_code
+      = f.input :city
+      = f.input :state
+      = f.input :country
+      = f.input :tenant_id, collection: Tenant.all, label_method: :name, value_method: :id
+      
+  = f.button :submit, class: 'btn btn-success'
