@@ -1,0 +1,10 @@
+= simple_form_for @floor do |f|
+  .row
+    .col-md-12
+    
+      = f.input :name
+      = f.input :level
+      = f.input :location_id, collection: Location.all, label_method: :name, value_method: :id
+      = f.input :tenant_id, collection: Tenant.all, label_method: :name, value_method: :id
+      
+  = f.button :submit, class: 'btn btn-success'

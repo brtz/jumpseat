@@ -14,8 +14,7 @@ class Location < ApplicationRecord
 
   # associations
   belongs_to :tenant
-  # has_many :user_reservations
-  # has_many :reservations, through: :user_reservations
+  has_many :floors
 
   encrypts :name
   encrypts :street

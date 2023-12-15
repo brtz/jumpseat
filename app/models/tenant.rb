@@ -8,6 +8,7 @@ class Tenant < ApplicationRecord
   # associations
   has_many :users, dependent: :destroy
   has_many :locations, dependent: :destroy
+  has_many :floors, dependent: :destroy
 
   encrypts :name
 end

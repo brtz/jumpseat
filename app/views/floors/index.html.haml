@@ -1,0 +1,34 @@
+%h2
+  Floors
+  - if @current_role == "admin"
+    = link_to 'New Floor', new_floor_path, class: 'btn btn-primary float-right'
+.clearfix
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Id
+        %th Tenant
+        %th Location
+        %th Name
+        %th Level
+    %tbody
+      - @floors.each do |floor|
+        %tr
+          %td
+            = floor.id
+          %td
+            = floor.tenant.name
+          %td
+            = floor.location.name
+          %td
+            = floor.name
+          %td
+            = floor.level
+          %td
+            .d-flex.justify-content-end
+              - if @current_role == "admin"
+                = link_to 'Edit', edit_floor_path(floor), class: 'btn btn-sm btn-outline-info mr-2'
+                = link_to 'Delete', floor_path(floor), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
+.d-flex.justify-content-center.mt-3
+  = paginate @floors
