@@ -57,7 +57,7 @@ class FloorsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def floor_params
-      params.require(:floor).permit(:page, :name, :tenant_id, :location_id, :level)
+      params.require(:floor).permit(:page, :name, :location_id, :level)
     end
 
     def access_granted

@@ -6,6 +6,7 @@ class Room < ApplicationRecord
   
   # associations
   belongs_to :floor
+  has_many :desks, dependent: :destroy
 
   encrypts :name
 end

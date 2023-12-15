@@ -1,0 +1,13 @@
+= simple_form_for @desk do |f|
+  .row
+    .col-md-12
+    
+      = f.input :name
+      = f.input :room_id, collection: Room.all, label_method: :name, value_method: :id
+      = f.input :pos_x
+      = f.input :pos_y
+      = f.input :width
+      = f.input :height
+      = f.input :required_position, collection: [:trainee, :apprentice, :employee, :lead, :management]
+
+  = f.button :submit, class: 'btn btn-success'

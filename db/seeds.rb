@@ -18,5 +18,7 @@ if ENV["RAILS_ENV"] == "development"
   User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
   home = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
   thirteenth = Floor.create(name: "13th floor", level: "13", location: home)
-  Room.create(name: "Darkroom", floor: thirteenth)
+  darkroom = Room.create(name: "Darkroom", floor: thirteenth)
+  desk1 = Desk.create(name: "Desk 1", room: darkroom, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
+  desk2 = Desk.create(name: "Desk 2", room: darkroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
 end

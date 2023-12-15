@@ -1,0 +1,52 @@
+%h2
+  Desks
+  - if @current_role == "admin"
+    = link_to 'New Desk', new_desk_path, class: 'btn btn-primary float-right'
+.clearfix
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Id
+        %th Tenant
+        %th Location
+        %th Floor
+        %th Room
+        %th Name
+        %th X
+        %th Y
+        %th Width
+        %th Height
+        %th Required position
+    %tbody
+      - @desks.each do |desk|
+        %tr
+          %td
+            = desk.id
+          %td
+            = desk.room.floor.location.tenant.name
+          %td
+            = desk.room.floor.location.name  
+          %td
+            = desk.room.floor.name
+          %td
+            = desk.room.name
+          %td
+            = desk.name
+          %td
+            = desk.pos_x
+          %td
+            = desk.pos_y
+          %td
+            = desk.width
+          %td
+            = desk.height
+          %td
+            = desk.required_position
+          %td
+            .d-flex.justify-content-end
+              - if @current_role == "admin"
+                = link_to 'Edit', edit_desk_path(desk), class: 'btn btn-sm btn-outline-info mr-2'
+                = link_to 'Delete', desk_path(desk), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
+.d-flex.justify-content-center.mt-3
+  = paginate @desks
