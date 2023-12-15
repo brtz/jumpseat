@@ -3,7 +3,6 @@ class CreateFloors < ActiveRecord::Migration[7.1]
     create_table :floors, id: :uuid do |t|
       t.string :level
       t.string :name
-      t.references :tenant, null: false, foreign_key: true, type: :uuid
       t.references :location, null: false, foreign_key: true, type: :uuid
 
       t.timestamps

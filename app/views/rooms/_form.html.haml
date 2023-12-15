@@ -1,0 +1,8 @@
+= simple_form_for @room do |f|
+  .row
+    .col-md-12
+    
+      = f.input :name
+      = f.input :floor_id, collection: Floor.all, label_method: :name, value_method: :id
+
+  = f.button :submit, class: 'btn btn-success'

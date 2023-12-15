@@ -1,0 +1,34 @@
+%h2
+  Rooms
+  - if @current_role == "admin"
+    = link_to 'New Room', new_room_path, class: 'btn btn-primary float-right'
+.clearfix
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Id
+        %th Tenant
+        %th Location
+        %th Floor
+        %th Name
+    %tbody
+      - @rooms.each do |room|
+        %tr
+          %td
+            = room.id
+          %td
+            = room.floor.location.tenant.name
+          %td
+            = room.floor.location.name  
+          %td
+            = room.floor.name
+          %td
+            = room.name
+          %td
+            .d-flex.justify-content-end
+              - if @current_role == "admin"
+                = link_to 'Edit', edit_room_path(room), class: 'btn btn-sm btn-outline-info mr-2'
+                = link_to 'Delete', room_path(room), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
+.d-flex.justify-content-center.mt-3
+  = paginate @rooms

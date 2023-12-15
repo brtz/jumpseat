@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_15_174838) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_15_180919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -22,13 +22,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_174838) do
   create_table "floors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "level"
     t.string "name"
-    t.uuid "tenant_id", null: false
     t.uuid "location_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_floors_on_location_id"
     t.index ["name"], name: "index_floors_on_name", unique: true
-    t.index ["tenant_id"], name: "index_floors_on_tenant_id"
   end
 
   create_table "locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -44,6 +42,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_174838) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_locations_on_name", unique: true
     t.index ["tenant_id"], name: "index_locations_on_tenant_id"
+  end
+
+  create_table "rooms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.uuid "floor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["floor_id"], name: "index_rooms_on_floor_id"
   end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -74,6 +80,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_174838) do
   end
 
   add_foreign_key "floors", "locations"
-  add_foreign_key "floors", "tenants"
   add_foreign_key "locations", "tenants"
+  add_foreign_key "rooms", "floors"
 end
