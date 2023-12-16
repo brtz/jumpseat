@@ -1,5 +1,5 @@
 class Limitation < ApplicationRecord
-  self.implicit_order_column = :created_at
+  self.implicit_order_column = :start_date
 
   validates :name, uniqueness: true
   validates :name, length: { in: 2..50 }

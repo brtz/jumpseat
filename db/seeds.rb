@@ -11,11 +11,11 @@
 #   end
 
 admin_tenant = Tenant.create(name: "Admin Tenant") if Tenant.find_by("name='Admin Tenant'").nil?
-User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
+admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
 
 if ENV["RAILS_ENV"] == "development"
   acme = Tenant.create(name: "ACME")
-  User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
+  user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
   home = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
   thirteenth = Floor.create(name: "13th floor", level: "13", location: home)
   darkroom = Room.create(name: "Darkroom", floor: thirteenth)
@@ -26,4 +26,6 @@ if ENV["RAILS_ENV"] == "development"
   christmas = Limitation.create(name: "ACME Christmas", start_date: "2023-12-24T000000", end_date: "2023-12-27T000000")
   acme.limitation_ids = [christmas.id]
   acme.save
+  Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: user, desk: desk3)
+  Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: admin, desk: desk2)
 end

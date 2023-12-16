@@ -6,7 +6,7 @@ class LimitationsController < ApplicationController
 
   # GET /limitations
   def index
-    @limitations = Limitation.all.page(@page)
+    @limitations = Limitation.all.order("start_date ASC").page(@page)
     respond_to do |format|
       format.html
       format.json { render json: Limitation.all }

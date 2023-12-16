@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_15_214236) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -70,6 +70,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_214236) do
     t.index ["tenant_id"], name: "index_locations_on_tenant_id"
   end
 
+  create_table "reservations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.uuid "desk_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["desk_id"], name: "index_reservations_on_desk_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
   create_table "rooms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "floor_id", null: false
@@ -92,6 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_214236) do
     t.string "middle_name", default: "", null: false
     t.string "last_name", null: false
     t.boolean "admin", default: false
+    t.integer "quota_max_reservations", default: 45
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -108,5 +120,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_15_214236) do
   add_foreign_key "desks", "rooms"
   add_foreign_key "floors", "locations"
   add_foreign_key "locations", "tenants"
+  add_foreign_key "reservations", "desks"
+  add_foreign_key "reservations", "users"
   add_foreign_key "rooms", "floors"
 end

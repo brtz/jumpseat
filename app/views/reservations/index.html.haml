@@ -1,0 +1,34 @@
+%h2
+  Reservations
+  - if @current_role == "admin"
+    = link_to 'New Reservation', new_reservation_path, class: 'btn btn-primary float-right'
+.clearfix
+.table-responsive
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Id
+        %th Start
+        %th End
+        %th Desk
+        %th User
+    %tbody
+      - @reservations.each do |reservation|
+        %tr
+          %td
+            = reservation.id
+          %td
+            = reservation.start_date
+          %td
+            = reservation.end_date
+          %td
+            = reservation.desk.name
+          %td
+            = reservation.user.email
+          %td
+            .d-flex.justify-content-end
+              - if @current_role == "admin"
+                = link_to 'Edit', edit_reservation_path(reservation), class: 'btn btn-sm btn-outline-info mr-2'
+                = link_to 'Delete', reservation_path(reservation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
+.d-flex.justify-content-center.mt-3
+  = paginate @reservations

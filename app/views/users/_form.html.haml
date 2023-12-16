@@ -8,5 +8,6 @@
       = f.input :last_name
       = f.input :current_position, collection: [:trainee, :apprentice, :employee, :lead, :management]
       = f.input :admin, collection: [:true, :false]
+      = f.input :quota_max_reservations
       
   = f.button :submit, class: 'btn btn-success'

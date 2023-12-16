@@ -15,6 +15,7 @@
         %th Tenant
         %th Position
         %th Admin?
+        %th Quota max reservations
         %th Locked at
     %tbody
       - @users.each do |user|
@@ -35,6 +36,8 @@
             = user.current_position
           %td
             = user.admin
+          %td
+            = user.quota_max_reservations
           %td
             = user.locked_at
           %td
