@@ -27,7 +27,7 @@
             = reservation.user.email
           %td
             .d-flex.justify-content-end
-              - if @current_role == "admin"
+              - if @current_role == "admin" || reservation.user.id == current_user.id
                 = link_to 'Edit', edit_reservation_path(reservation), class: 'btn btn-sm btn-outline-info mr-2'
                 = link_to 'Delete', reservation_path(reservation), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger'
 .d-flex.justify-content-center.mt-3

@@ -2,7 +2,7 @@
 
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :destroy]
-  before_action :access_granted
+  before_action :access_granted, only: [:edit, :update, :destroy]
 
   # GET /reservations
   def index
@@ -66,7 +66,9 @@ class ReservationsController < ApplicationController
     end
 
     def access_granted
-      head(:forbidden) unless @current_role == "admin"
+      if (@current_role != "admin") && (@reservation.user_id != current_user.id)
+        head(:forbidden)
+      end
     end
 
     def patch_params(params)

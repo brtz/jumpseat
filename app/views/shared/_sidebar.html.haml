@@ -1,6 +1,7 @@
 %nav.col-md-1.d-md-block.bg-dark.sidebar
   .sidebar-sticky.pt-0.border-right
     %ul.nav.flex-column.list-group.list-group-flush.p-3
+      = link_to 'Reservations', reservations_path, class: 'list-group-item list-group-item-action'
       - if @current_role == "admin"
         %br
         = link_to 'Tenants', tenants_path, class: 'list-group-item list-group-item-action'
@@ -10,6 +11,5 @@
         = link_to 'Desks', desks_path, class: 'list-group-item list-group-item-action'
         = link_to 'Limitations', limitations_path, class: 'list-group-item list-group-item-action'
         = link_to 'Users', users_path, class: 'list-group-item list-group-item-action'
-        = link_to 'Reservations', reservations_path, class: 'list-group-item list-group-item-action'
       
     %ul.nav.flex-column.list-group.list-group-flush.p-3
