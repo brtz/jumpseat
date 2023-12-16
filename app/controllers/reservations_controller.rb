@@ -70,11 +70,4 @@ class ReservationsController < ApplicationController
         head(:forbidden)
       end
     end
-
-    def patch_params(params)
-      patched_params = params
-      patched_params["start_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day.to_s
-      patched_params["end_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
-      patched_params
-    end
 end

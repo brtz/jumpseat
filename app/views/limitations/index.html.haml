@@ -2,6 +2,8 @@
   Limitations
   - if @current_role == "admin"
     = link_to 'New Limitation', new_limitation_path, class: 'btn btn-primary float-right'
+%i.fa-solid.fa-circle-info
+%p Limitations are polymorphic 1:1 relations. Meaning a limitation can be applied to different models (e.g. to a Tenant or a Room). You cannot assign a limitation more than once.
 .clearfix
 .table-responsive
   %table.table.table-striped.table-hover

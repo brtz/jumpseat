@@ -26,4 +26,15 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+
+    def patch_params(params)
+      patched_params = params
+      patched_params["start_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day.to_s
+      if params["end_date"].nil?
+        patched_params["end_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
+      else
+        patched_params["end_date"] = DateTime.strptime(params["end_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
+      end
+      patched_params
+    end
 end

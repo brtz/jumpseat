@@ -24,7 +24,9 @@ class LimitationsController < ApplicationController
 
   # POST /limitations
   def create
-    @limitation = Limitation.new(limitation_params)
+    patched_params = patch_params limitation_params
+
+    @limitation = Limitation.new(patched_params)
 
     if @limitation.save
       redirect_to limitations_path, notice: "Limitation was successfully created."
@@ -36,7 +38,9 @@ class LimitationsController < ApplicationController
 
   # PATCH/PUT /limitations/1
   def update
-    if @limitation.update(limitation_params)
+    patched_params = patch_params limitation_params
+
+    if @limitation.update(patched_params)
       redirect_to limitations_path, notice: "Limitation was successfully updated."
     else
       render :edit
