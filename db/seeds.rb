@@ -19,8 +19,10 @@ if ENV["RAILS_ENV"] == "development"
   home = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
   thirteenth = Floor.create(name: "13th floor", level: "13", location: home)
   darkroom = Room.create(name: "Darkroom", floor: thirteenth)
+  lightroom = Room.create(name: "Lightroom", floor: thirteenth)
   desk1 = Desk.create(name: "Desk 1", room: darkroom, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
   desk2 = Desk.create(name: "Desk 2", room: darkroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
+  desk3 = Desk.create(name: "Desk 3", room: lightroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
   christmas = Limitation.create(name: "ACME Christmas", start_date: "2023-12-24T000000", end_date: "2023-12-27T000000")
   acme.limitation_ids = [christmas.id]
   acme.save
