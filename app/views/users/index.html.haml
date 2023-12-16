@@ -31,7 +31,8 @@
           %td
             = user.last_name
           %td
-            = user.tenant.name
+            - if !user.tenant.nil?
+              = user.tenant.name
           %td
             = user.current_position
           %td

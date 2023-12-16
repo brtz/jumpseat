@@ -10,8 +10,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-admin_tenant = Tenant.create(name: "Admin Tenant") if Tenant.find_by("name='Admin Tenant'").nil?
-admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true, tenant: admin_tenant) if User.find_by("email='admin@jumpseat'").nil?
+#admin_tenant = Tenant.create(name: "Admin Tenant") if Tenant.find_by("name='Admin Tenant'").nil?
+admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "Admin", current_position: "management", admin: true) if User.find_by("email='admin@jumpseat'").nil?
 
 if ENV["RAILS_ENV"] == "development"
   acme = Tenant.create(name: "ACME")
@@ -28,4 +28,22 @@ if ENV["RAILS_ENV"] == "development"
   acme.save
   Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: user, desk: desk3)
   Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: admin, desk: desk2)
+  Reservation.create(start_date: (DateTime.now.utc + 2.days).beginning_of_day, end_date: (DateTime.now.utc + 2.days).end_of_day, user: admin, desk: desk2)
+  Reservation.create(start_date: (DateTime.now.utc + 1.day).beginning_of_day, end_date: (DateTime.now.utc + 1.day).end_of_day, user: admin, desk: desk2)
+
+  for i in 1..2 do
+    tenant = Tenant.create(name: "ACME#{i}")
+    for j in 1..3 do
+      location = Location.create(name: "loc-#{i}-#{j}", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: tenant)
+      for k in 1..2 do
+        floor = Floor.create(name: "floor-#{i}-#{j}-#{k}", level: "13", location: location)
+        for l in 1..3 do
+          room = Room.create(name: "room-#{i}-#{j}-#{k}-#{l}", floor: floor)
+          for m in 1..4 do
+            desk = Desk.create(name: "desk-#{i}-#{j}-#{k}-#{l}-#{m}", room: room, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
+          end
+        end
+      end
+    end
+  end
 end
