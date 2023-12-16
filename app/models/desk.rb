@@ -8,7 +8,7 @@ class Desk < ApplicationRecord
   # associations
   belongs_to :room
   has_many :limitations, as: :limitable
-  has_many :reservations
+  has_many :reservations, dependent: :destroy
 
   encrypts :name
 end
