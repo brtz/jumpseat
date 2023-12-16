@@ -19,7 +19,7 @@ class Reservation < ApplicationRecord
 
   def users_reservations_quota
     user = User.find_by(id: user_id)
-    users_reservations_count = Reservation.where("user_id=?", user_id).where("start_date > ?", DateTime.now.utc).count
+    users_reservations_count = Reservation.where("user_id=?", user_id).where("start_date >= ?", DateTime.now.utc).count
 
     if users_reservations_count >= user.quota_max_reservations
       errors.add(:user_id, "max reservations quota reached (#{users_reservations_count} / #{user.quota_max_reservations})")
