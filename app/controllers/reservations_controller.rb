@@ -24,9 +24,7 @@ class ReservationsController < ApplicationController
 
   # POST /reservations
   def create
-    patched_params = reservation_params
-    patched_params["start_date"] = DateTime.strptime(reservation_params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day.to_s
-    patched_params["end_date"] = DateTime.strptime(reservation_params["start_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
+    patched_params = patch_params reservation_params
 
     @reservation = Reservation.new(patched_params)
 
@@ -40,10 +38,8 @@ class ReservationsController < ApplicationController
 
   # PATCH/PUT /reservations/1
   def update
-    patched_params = reservation_params
-    patched_params["start_date"] = DateTime.strptime(reservation_params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day.to_s
-    patched_params["end_date"] = DateTime.strptime(reservation_params["start_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
-    
+    patched_params = patch_params reservation_params
+
     if @reservation.update(patched_params)
       redirect_to reservations_path, notice: "Reservation was successfully updated."
     else
@@ -71,5 +67,12 @@ class ReservationsController < ApplicationController
 
     def access_granted
       head(:forbidden) unless @current_role == "admin"
+    end
+
+    def patch_params(params)
+      patched_params = params
+      patched_params["start_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day.to_s
+      patched_params["end_date"] = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
+      patched_params
     end
 end
