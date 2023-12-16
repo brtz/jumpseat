@@ -4,6 +4,7 @@ class Reservation < ApplicationRecord
   validate :end_date_needs_to_be_same_day_as_start_date
   validate :user_has_required_position
   validate :honor_limitations
+  validate :unique_reservation
   validate :users_reservations_quota, on: :create
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
@@ -49,7 +50,7 @@ class Reservation < ApplicationRecord
 
   def honor_limitations
     user = User.find_by(id: user_id)
-    desk = Desk.includes(room: {floor: {location: :tenant}}).find_by(id: desk_id)
+    desk = Desk.find_by(id: desk_id)
     limitations = Limitation.all.load_async
 
     matched_limitations = []
@@ -73,5 +74,9 @@ class Reservation < ApplicationRecord
     end
 
     errors.add(:start_date, "matching limitations found: #{matched_limitations.join(", ")}") if matched_limitations.size > 0
+  end
+
+  def unique_reservation
+    errors.add(:start_date, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date).where("end_date <= ?", end_date).count > 0
   end
 end
