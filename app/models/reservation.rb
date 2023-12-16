@@ -2,6 +2,7 @@ class Reservation < ApplicationRecord
   self.implicit_order_column = :start_date
 
   validate :end_date_needs_to_be_same_day_as_start_date
+  validate :user_has_required_position
   validate :users_reservations_quota, on: :create
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
@@ -23,6 +24,25 @@ class Reservation < ApplicationRecord
 
     if users_reservations_count >= user.quota_max_reservations
       errors.add(:user_id, "max reservations quota reached (#{users_reservations_count} / #{user.quota_max_reservations})")
+    end
+  end
+
+  def user_has_required_position
+    positions = {}
+    positions["trainee"] = 0
+    positions["apprentice"] = 1
+    positions["employee"] = 2
+    positions["lead"] = 3
+    positions["management"] = 4
+
+    user = User.find_by(id: user_id)
+    desk = Desk.find_by(id: desk_id)
+
+    user_position = positions[user.current_position]
+    desk_position = positions[desk.required_position]
+
+    if user_position < desk_position
+      errors.add(:desk_id, "requires higher position to be reserved (#{desk.required_position})")
     end
   end
 end
