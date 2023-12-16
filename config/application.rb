@@ -40,8 +40,9 @@ module Jumpseat
     config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY")
     config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT")
 
-    config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
-
     config.active_record.async_query_executor = :global_thread_pool
+    config.active_record.global_executor_concurrency = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+
+    config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
   end
 end
