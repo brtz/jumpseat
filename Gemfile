@@ -90,4 +90,5 @@ gem "rubocop-rails", require: false
 gem "rubocop-rails_config", require: false
 gem "sass-rails"
 gem "securerandom"
+gem "sidekiq"
 gem "simple_form", "~> 5.3.0"

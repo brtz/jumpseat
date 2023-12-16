@@ -1,6 +1,9 @@
 %nav.col-md-1.d-md-block.bg-dark.sidebar
   .sidebar-sticky.pt-0.border-right
     %ul.nav.flex-column.list-group.list-group-flush.p-3
+      = link_to root_path, class: 'list-group-item list-group-item-action' do
+        %i.fa-solid.fa-chart-line
+        Dashboard
       = link_to reservations_path, class: 'list-group-item list-group-item-action' do
         %i.fa-solid.fa-bookmark
         Reservations
@@ -27,5 +30,10 @@
         = link_to users_path, class: 'list-group-item list-group-item-action' do
           %i.fa-solid.fa-users
           Users
+      - if @current_role == "admin"
+        %br
+        = link_to sidekiq_web_path, class: 'list-group-item list-group-item-action', target: '_blank' do
+          %i.fa-solid.fa-arrow-up-right-from-square
+          Queues
       
     %ul.nav.flex-column.list-group.list-group-flush.p-3

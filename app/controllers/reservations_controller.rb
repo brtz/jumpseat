@@ -3,6 +3,7 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :destroy]
   before_action :access_granted, only: [:edit, :update, :destroy]
+  after_action :queue_cleanup, only: [:create, :update, :destroy]
 
   # GET /reservations
   def index
@@ -69,5 +70,9 @@ class ReservationsController < ApplicationController
       if (@current_role != "admin") && (@reservation.user_id != current_user.id)
         head(:forbidden)
       end
+    end
+
+    def queue_cleanup
+      ReservationsCleanupJob.perform_later
     end
 end

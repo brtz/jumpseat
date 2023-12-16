@@ -3,6 +3,7 @@
 class LimitationsController < ApplicationController
   before_action :set_limitation, only: [:edit, :update, :destroy]
   before_action :access_granted
+  after_action :queue_cleanup, only: [:create, :update, :destroy]
 
   # GET /limitations
   def index
@@ -67,5 +68,9 @@ class LimitationsController < ApplicationController
 
     def access_granted
       head(:forbidden) unless @current_role == "admin"
+    end
+
+    def queue_cleanup
+      LimitationsCleanupJob.perform_later
     end
 end

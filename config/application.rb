@@ -43,6 +43,8 @@ module Jumpseat
     config.active_record.async_query_executor = :global_thread_pool
     config.active_record.global_executor_concurrency = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
   end
 end

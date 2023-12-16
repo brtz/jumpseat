@@ -8,7 +8,7 @@ class Reservation < ApplicationRecord
   validate :users_reservations_quota, on: :create
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
-  validates :start_date, comparison: { less_than: DateTime.now.utc + 1.month }
+  validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
   validates :end_date, comparison: { greater_than: :start_date }
   
   belongs_to :desk
