@@ -1,5 +1,7 @@
 %nav.navbar.navbar-dark.sticky-top.bg-dark.flex-md-nowrap.p-0
-  = link_to 'Jumpseat', root_path, class: 'navbar-brand col-sm-3 col-md-2 mr-0'
+  = link_to root_path, class: 'navbar-brand col-sm-3 col-md-2 mr-0' do
+    =image_tag "jumpseat_logo.png", style: 'height:25px;width:auto;'
+    Jumpseat
   %ul.navbar-nav.px-3.full-width
     - if user_signed_in?
       %li.nav-item.text-nowrap
