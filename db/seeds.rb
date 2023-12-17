@@ -33,6 +33,9 @@ if ENV["RAILS_ENV"] == "development"
 
   for i in 1..2 do
     tenant = Tenant.create(name: "ACME#{i}")
+    for n in 1..6 do
+      user = User.create(email: "user#{i}-#{n}@jumpseat", password: "initial", first_name: "#{i}-#{n}", last_name: "#{i}-#{n}", current_position: "employee", admin: false, tenant: tenant)
+    end
     for j in 1..3 do
       location = Location.create(name: "loc-#{i}-#{j}", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: tenant)
       for k in 1..2 do

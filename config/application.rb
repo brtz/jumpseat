@@ -50,5 +50,11 @@ module Jumpseat
     config.cache_store = :redis_cache_store, { url: ENV['REDISCLOUD_URL'] }
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
+
+    config.after_initialize do
+      CalcStatsJob.perform_later
+      ReservationsCleanupJob.perform_later
+      LimitationsCleanupJob.perform_later
+    end
   end
 end

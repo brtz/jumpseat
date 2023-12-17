@@ -4,8 +4,7 @@
 %p This page is partially cached for up to an hour.
 
 .d-flex.flex-row.p-2.bd-hightlight
-  .d-flex.flex-column.bd-hightlight.mb-3.w-50
-    - # for each tenant
+  .d-flex.flex-column.bd-hightlight.mb-3.w-50.mr-3
     - @output.tenants.each do |tenant|
       .d-flex.flow-row.mb-3
         .d-flex.flex-column.mb-3.w-100
@@ -33,6 +32,39 @@
                   = tenant[:num_reservations][:today]
 
 
-  .d-flex.flex-column.bd-hightlight.mb-3.w-50
-    - # top 5 users
-    - # top 5 desks
+  .d-flex.flex-column.bd-hightlight.mb-3.w-50.ml-3
+    .d-flex.flow-row.mb-3
+      .d-flex.flex-column.mb-3.w-100
+        .card.mb-auto
+          .card-body
+            %h5.card-title
+              Who's in today?
+            %ul.list-group.list-group-flush
+              %li.list-group-item
+                = @in_today.join(", ")
+
+    .d-flex.flow-row.mb-3
+      .d-flex.flex-column.mb-3.w-100
+        .card.mb-auto
+          .card-body
+            %h5.card-title
+              Who's in tomorrow?
+            %ul.list-group.list-group-flush
+              %li.list-group-item
+                = @in_tomorrow.join(", ")
+
+    .d-flex.flow-row.mb-3
+      .d-flex.flex-column.mb-3.w-100
+        .card.mb-auto
+          .card-body
+            %h5.card-title
+              Top 5 Users
+            %ul.list-group.list-group-flush
+
+    .d-flex.flow-row.mb-3
+      .d-flex.flex-column.mb-3.w-100
+        .card.mb-auto
+          .card-body
+            %h5.card-title
+              Most popular Desks
+            %ul.list-group.list-group-flush
