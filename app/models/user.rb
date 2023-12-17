@@ -15,7 +15,7 @@ class User < ApplicationRecord
 
   # associations
   belongs_to :tenant, optional: true
-  has_many :reservations
+  has_many :reservations, dependent: :destroy
 
   encrypts :first_name
   encrypts :middle_name

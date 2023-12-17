@@ -47,8 +47,8 @@ class CalcStatsJob < ApplicationJob
       )
     end
 
-    Rails.cache.delete("dashboard-tenant-stats")
-    Rails.cache.fetch("dashboard-tenant-stats", expires_in: 1.hour) do
+    Rails.cache.delete("dashboard/tenant-stats")
+    Rails.cache.fetch("dashboard/tenant-stats", expires_in: 1.hour) do
       output
     end
   end

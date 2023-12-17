@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 
   def index
     # dashboard tenants stats are slow, so let's cache them
-    @output = Rails.cache.fetch("dashboard-tenant-stats", expires_in: 1.hour) do
+    @output = Rails.cache.fetch("dashboard/tenant-stats", expires_in: 1.hour) do
       CalcStatsJob.set(wait: 5.seconds).perform_later
       output = OpenStruct.new
       output.tenants = []
@@ -26,7 +26,7 @@ class DashboardController < ApplicationController
 
     now = DateTime.now.utc
 
-    todays_reservations = Rails.cache.fetch("dashboard-todays-reservations", expires_in: 1.hour) do
+    todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 1.hour) do
       Reservation.where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
     end
     @in_today = []
@@ -34,7 +34,7 @@ class DashboardController < ApplicationController
       @in_today.push("#{reservation.user.first_name} #{reservation.user.last_name}")
     end
 
-    tomorrows_reservations = Rails.cache.fetch("dashboard-tomorrows-reservations", expires_in: 1.hour) do
+    tomorrows_reservations = Rails.cache.fetch("dashboard/tomorrows-reservations", expires_in: 1.hour) do
       Reservation.where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user])
     end
     @in_tomorrow = []
@@ -42,36 +42,28 @@ class DashboardController < ApplicationController
       @in_tomorrow.push("#{reservation.user.first_name} #{reservation.user.last_name}")
     end
 
-    top5_users_reservations = Rails.cache.fetch("dashboard-top5-users-reservations", expires_in: 1.hour) do
-      Reservation.where("start_date >= ?", now.beginning_of_day).group(:user_id).order('count_all DESC').limit(5).count
-    end
-    @top5_users = []
-    i = 0
-    top5_users_reservations.each do |reservation|
-      user = User.find_by(id: reservation[0])
-      if !user.nil?
+    @top5_users = Rails.cache.fetch("dashboard/top5-users-reservations", expires_in: 1.hour) do
+      reservations = Reservation.where("start_date >= ?", now.beginning_of_day).group(:user_id).order('count_all DESC').limit(5).count
+      users = []
+      i = 0
+      reservations.each do |reservation|
+        user = User.find_by(id: reservation[0])
         i = i + 1
-        @top5_users.push("#{i}. #{user.first_name} #{user.last_name}: #{reservation[1]} reservations")
-      else
-        # we've found a user that doesn't exist any more, invalidate cache
-        Rails.cache.delete("dashboard-top5-users-reservations")
+        users.push("#{i}. #{user.first_name} #{user.last_name}: #{reservation[1]} reservations")
       end
+      users
     end
 
-    top5_desks_reservations = Rails.cache.fetch("dashboard-top5-desks-reservations", expires_in: 1.hour) do
-      Reservation.where("start_date >= ?", now.beginning_of_day).group(:desk_id).order('count_all DESC').limit(5).count
-    end
-    @top5_desks = []
-    i = 0
-    top5_desks_reservations.each do |reservation|
-      desk = Desk.find_by(id: reservation[0])
-      if !desk.nil?
+    @top5_desks = Rails.cache.fetch("dashboard/top5-desks-reservations", expires_in: 1.hour) do
+      reservations = Reservation.where("start_date >= ?", now.beginning_of_day).group(:desk_id).order('count_all DESC').limit(5).count
+      desks = []
+      i = 0
+      reservations.each do |reservation|
+        desk = Desk.find_by(id: reservation[0])
         i = i + 1
-        @top5_desks.push("#{i}. #{desk.name}: #{reservation[1]} reservations")
-      else
-        # we've found a desk that doesn't exist any more, invalidate cache
-        Rails.cache.delete("dashboard-top5-desks-reservations")
+        desks.push("#{i}. #{desk.name}: #{reservation[1]} reservations")
       end
+      desks
     end
   end
 end
