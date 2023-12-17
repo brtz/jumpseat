@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
   private
 
   def cache_stats
-    tenants = Tenant.includes(locations: {floors: {rooms: {desks: :reservations}}}).all
+    tenants = Tenant.includes(locations: {floors: {rooms: :desks}}).all
     
     users = User.all
 
@@ -34,9 +34,9 @@ class DashboardController < ApplicationController
           floor.rooms.each do |room|
             desks = desks + room.desks.length
             room.desks.each do |desk|
-              reservations_total = reservations_total + desk.reservations.length
-              reservations_n7d = reservations_n7d + desk.reservations.where("start_date >= ?", DateTime.now.utc).where("end_date <= ?", DateTime.now.utc + 7.days).length
-              reservations_today = reservations_today + desk.reservations.where("start_date >= ?", DateTime.now.utc).where("end_date <= ?", DateTime.now.utc.end_of_day).length
+              reservations_total = reservations_total + desk.reservations.where("start_date >= ?", DateTime.now.utc.beginning_of_day).length
+              reservations_n7d = reservations_n7d + desk.reservations.where("start_date >= ?", DateTime.now.utc.beginning_of_day).where("end_date <= ?", DateTime.now.utc.end_of_day + 7.days).length
+              reservations_today = reservations_today + desk.reservations.where("start_date >= ?", DateTime.now.utc.beginning_of_day).where("end_date <= ?", DateTime.now.utc.end_of_day).length
             end
           end
         end
