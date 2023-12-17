@@ -6,6 +6,7 @@ class Reservation < ApplicationRecord
   validate :honor_limitations
   validate :unique_reservation
   validate :users_reservations_quota, on: :create
+  validate :users_reservations_per_day
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
@@ -77,6 +78,10 @@ class Reservation < ApplicationRecord
   end
 
   def unique_reservation
-    errors.add(:start_date, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date).where("end_date <= ?", end_date).count > 0
+    errors.add(:desk_id, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
+  end
+
+  def users_reservations_per_day
+    errors.add(:start_date, "cannot reserve more than one desk per day") if Reservation.where("user_id = ?", user_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
   end
 end

@@ -26,16 +26,52 @@ class DashboardController < ApplicationController
 
     now = DateTime.now.utc
 
-    todays_reservations = Reservation.where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).load_async
+    todays_reservations = Rails.cache.fetch("dashboard-todays-reservations", expires_in: 1.hour) do
+      Reservation.where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
+    end
     @in_today = []
     todays_reservations.each do |reservation|
       @in_today.push("#{reservation.user.first_name} #{reservation.user.last_name}")
     end
 
-    tomorrows_reservations = Reservation.where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).load_async
+    tomorrows_reservations = Rails.cache.fetch("dashboard-tomorrows-reservations", expires_in: 1.hour) do
+      Reservation.where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user])
+    end
     @in_tomorrow = []
     tomorrows_reservations.each do |reservation|
       @in_tomorrow.push("#{reservation.user.first_name} #{reservation.user.last_name}")
+    end
+
+    top5_users_reservations = Rails.cache.fetch("dashboard-top5-users-reservations", expires_in: 1.hour) do
+      Reservation.where("start_date >= ?", now.beginning_of_day).group(:user_id).order('count_all DESC').limit(5).count
+    end
+    @top5_users = []
+    i = 0
+    top5_users_reservations.each do |reservation|
+      user = User.find_by(id: reservation[0])
+      if !user.nil?
+        i = i + 1
+        @top5_users.push("#{i}. #{user.first_name} #{user.last_name}: #{reservation[1]} reservations")
+      else
+        # we've found a user that doesn't exist any more, invalidate cache
+        Rails.cache.delete("dashboard-top5-users-reservations")
+      end
+    end
+
+    top5_desks_reservations = Rails.cache.fetch("dashboard-top5-desks-reservations", expires_in: 1.hour) do
+      Reservation.where("start_date >= ?", now.beginning_of_day).group(:desk_id).order('count_all DESC').limit(5).count
+    end
+    @top5_desks = []
+    i = 0
+    top5_desks_reservations.each do |reservation|
+      desk = Desk.find_by(id: reservation[0])
+      if !desk.nil?
+        i = i + 1
+        @top5_desks.push("#{i}. #{desk.name}: #{reservation[1]} reservations")
+      else
+        # we've found a desk that doesn't exist any more, invalidate cache
+        Rails.cache.delete("dashboard-top5-desks-reservations")
+      end
     end
   end
 end

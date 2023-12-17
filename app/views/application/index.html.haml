@@ -60,6 +60,9 @@
             %h5.card-title
               Top 5 Users
             %ul.list-group.list-group-flush
+              - @top5_users.each do |user|
+                %li.list-group-item
+                  = user
 
     .d-flex.flow-row.mb-3
       .d-flex.flex-column.mb-3.w-100
@@ -68,3 +71,6 @@
             %h5.card-title
               Most popular Desks
             %ul.list-group.list-group-flush
+              - @top5_desks.each do |desk|
+                %li.list-group-item
+                  = desk

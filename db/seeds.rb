@@ -33,8 +33,10 @@ if ENV["RAILS_ENV"] == "development"
 
   for i in 1..2 do
     tenant = Tenant.create(name: "ACME#{i}")
+    users = []
     for n in 1..6 do
       user = User.create(email: "user#{i}-#{n}@jumpseat", password: "initial", first_name: "#{i}-#{n}", last_name: "#{i}-#{n}", current_position: "employee", admin: false, tenant: tenant)
+      users.push(user)
     end
     for j in 1..3 do
       location = Location.create(name: "loc-#{i}-#{j}", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: tenant)
@@ -44,6 +46,11 @@ if ENV["RAILS_ENV"] == "development"
           room = Room.create(name: "room-#{i}-#{j}-#{k}-#{l}", floor: floor)
           for m in 1..4 do
             desk = Desk.create(name: "desk-#{i}-#{j}-#{k}-#{l}-#{m}", room: room, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
+            users.each do |user|
+              for o in 1..2 do
+                Reservation.create(start_date: (DateTime.now.utc + (o).days).beginning_of_day, end_date: (DateTime.now.utc + (o).days).end_of_day, user: user, desk: desk)
+              end
+            end
           end
         end
       end
