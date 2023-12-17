@@ -15,7 +15,7 @@ admin = User.create(email: "admin@jumpseat", password: "initial", first_name: "J
 
 if ENV["RAILS_ENV"] == "development"
   acme = Tenant.create(name: "ACME")
-  user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "trainee", admin: false, tenant: acme)
+  user = User.create(email: "user@jumpseat", password: "initial", first_name: "Jumpseat", last_name: "User", current_position: "employee", admin: false, tenant: acme)
   home = Location.create(name: "home", street: "Musterstrasse", house_number: "1", zip_code: "20095", city: "Hamburg", state: "Hamburg", country: "Germany", tenant: acme)
   thirteenth = Floor.create(name: "13th floor", level: "13", location: home)
   darkroom = Room.create(name: "Darkroom", floor: thirteenth)
@@ -46,11 +46,11 @@ if ENV["RAILS_ENV"] == "development"
           room = Room.create(name: "room-#{i}-#{j}-#{k}-#{l}", floor: floor)
           for m in 1..4 do
             desk = Desk.create(name: "desk-#{i}-#{j}-#{k}-#{l}-#{m}", room: room, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
-            users.each do |user|
-              for o in 1..2 do
-                Reservation.create(start_date: (DateTime.now.utc + (o).days).beginning_of_day, end_date: (DateTime.now.utc + (o).days).end_of_day, user: user, desk: desk)
-              end
-            end
+            # users.each do |user|
+            #   for o in 1..2 do
+            #     Reservation.create(start_date: (DateTime.now.utc + (o).days).beginning_of_day, end_date: (DateTime.now.utc + (o).days).end_of_day, user: user, desk: desk)
+            #   end
+            # end
           end
         end
       end

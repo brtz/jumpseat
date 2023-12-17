@@ -1,7 +1,6 @@
 %h2
   Reservations
-  - if @current_role == "admin"
-    = link_to 'New Reservation', new_reservation_path, class: 'btn btn-primary float-right'
+  = link_to 'New Reservation', new_reservation_path, class: 'btn btn-primary float-right'
 .clearfix
 .table-responsive
   %table.table.table-striped.table-hover
