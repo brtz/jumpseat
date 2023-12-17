@@ -3,6 +3,8 @@
 class Location < ApplicationRecord
   self.implicit_order_column = :created_at
 
+  scope :limit_tenant, ->(tenant) { where("tenant_id = ?", tenant.id) }
+
   validates :name, uniqueness: true
   validates :name, length: { in: 2..20 }
   validates :street, length: { in: 2..30 }

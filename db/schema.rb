@@ -75,6 +75,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
     t.datetime "end_date"
     t.uuid "desk_id", null: false
     t.uuid "user_id", null: false
+    t.boolean "shared", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["desk_id"], name: "index_reservations_on_desk_id"

@@ -27,6 +27,7 @@ if ENV["RAILS_ENV"] == "development"
   acme.limitation_ids = [christmas.id]
   acme.save
   Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: user, desk: desk3)
+  Reservation.create(start_date: (DateTime.now.utc + 27.days).beginning_of_day, end_date: (DateTime.now.utc + 27.days).end_of_day, user: user, desk: desk3, shared: false)
   Reservation.create(start_date: (DateTime.now.utc + 29.days).beginning_of_day, end_date: (DateTime.now.utc + 29.days).end_of_day, user: admin, desk: desk2)
   Reservation.create(start_date: (DateTime.now.utc + 2.days).beginning_of_day, end_date: (DateTime.now.utc + 2.days).end_of_day, user: admin, desk: desk2)
   Reservation.create(start_date: (DateTime.now.utc + 1.day).beginning_of_day, end_date: (DateTime.now.utc + 1.day).end_of_day, user: admin, desk: desk2)

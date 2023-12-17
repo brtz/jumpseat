@@ -27,7 +27,7 @@ class DashboardController < ApplicationController
     now = DateTime.now.utc
 
     todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 1.hour) do
-      Reservation.where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
+      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
     end
     @in_today = []
     todays_reservations.each do |reservation|
@@ -35,7 +35,7 @@ class DashboardController < ApplicationController
     end
 
     tomorrows_reservations = Rails.cache.fetch("dashboard/tomorrows-reservations", expires_in: 1.hour) do
-      Reservation.where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user])
+      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user])
     end
     @in_tomorrow = []
     tomorrows_reservations.each do |reservation|
@@ -43,7 +43,7 @@ class DashboardController < ApplicationController
     end
 
     @top5_users = Rails.cache.fetch("dashboard/top5-users-reservations", expires_in: 1.hour) do
-      reservations = Reservation.where("start_date >= ?", now.beginning_of_day).group(:user_id).order('count_all DESC').limit(5).count
+      reservations = Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).group(:user_id).order('count_all DESC').limit(5).count
       users = []
       i = 0
       reservations.each do |reservation|
@@ -55,7 +55,7 @@ class DashboardController < ApplicationController
     end
 
     @top5_desks = Rails.cache.fetch("dashboard/top5-desks-reservations", expires_in: 1.hour) do
-      reservations = Reservation.where("start_date >= ?", now.beginning_of_day).group(:desk_id).order('count_all DESC').limit(5).count
+      reservations = Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).group(:desk_id).order('count_all DESC').limit(5).count
       desks = []
       i = 0
       reservations.each do |reservation|

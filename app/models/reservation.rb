@@ -1,6 +1,8 @@
 class Reservation < ApplicationRecord
   self.implicit_order_column = :start_date
 
+  scope :shared, ->(bool) { where("shared = ?", bool) }
+
   validate :end_date_needs_to_be_same_day_as_start_date
   validate :user_has_required_position
   validate :honor_limitations
@@ -78,10 +80,18 @@ class Reservation < ApplicationRecord
   end
 
   def unique_reservation
-    errors.add(:desk_id, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
+    if id.nil?
+      errors.add(:desk_id, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
+    else
+      errors.add(:desk_id, "already reserved") if Reservation.where("desk_id = ?", desk_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).where("id != ?", id).count > 0
+    end
   end
 
   def users_reservations_per_day
-    errors.add(:start_date, "cannot reserve more than one desk per day") if Reservation.where("user_id = ?", user_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
+    if id.nil?
+      errors.add(:start_date, "cannot reserve more than one desk per day") if Reservation.where("user_id = ?", user_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).count > 0
+    else
+      errors.add(:start_date, "cannot reserve more than one desk per day") if Reservation.where("user_id = ?", user_id).where("start_date >= ?", start_date.beginning_of_day).where("end_date <= ?", end_date.end_of_day).where("id != ?", id).count > 0
+    end
   end
 end

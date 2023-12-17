@@ -1,6 +1,8 @@
 class Floor < ApplicationRecord
   self.implicit_order_column = :created_at
 
+  scope :limit_location, ->(location) { where("location_id = ?", location.id) }
+
   validates :name, uniqueness: true
   validates :name, length: { in: 2..20 }
   validates :level, length: { in: 1..10 }

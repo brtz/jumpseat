@@ -7,7 +7,11 @@ class ReservationsController < ApplicationController
 
   # GET /reservations
   def index
-    @reservations = Reservation.includes([:desk, :user]).all.order("start_date ASC").page(@page)
+    if current_user.admin?
+      @reservations = Reservation.includes([:desk, :user]).all.order("start_date ASC").page(@page)
+    else
+      @reservations = Reservation.includes([:desk, :user]).shared(true).or(Reservation.where("user_id = ?", current_user.id)).order("start_date ASC").page(@page)
+    end
     respond_to do |format|
       format.html
       format.json { render json: Reservation.all }
@@ -63,7 +67,7 @@ class ReservationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def reservation_params
-      params.require(:reservation).permit(:page, :name, :start_date, :user_id, :desk_id)
+      params.require(:reservation).permit(:page, :name, :start_date, :user_id, :desk_id, :shared)
     end
 
     def access_granted

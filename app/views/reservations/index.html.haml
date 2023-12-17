@@ -11,6 +11,7 @@
         %th End
         %th Desk
         %th User
+        %th Shared?
     %tbody
       - @reservations.each do |reservation|
         %tr
@@ -24,6 +25,8 @@
             = reservation.desk.name
           %td
             = reservation.user.email
+          %td
+            = reservation.shared
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin" || reservation.user.id == current_user.id

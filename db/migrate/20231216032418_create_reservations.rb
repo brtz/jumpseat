@@ -5,6 +5,7 @@ class CreateReservations < ActiveRecord::Migration[7.1]
       t.datetime :end_date
       t.references :desk, null: false, foreign_key: true, type: :uuid
       t.references :user, null: false, foreign_key: true, type: :uuid
+      t.boolean :shared, default: true
 
       t.timestamps
     end
