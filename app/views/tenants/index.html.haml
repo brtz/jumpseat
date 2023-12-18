@@ -7,13 +7,10 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
-        %th Id
         %th Name
     %tbody
       - @tenants.each do |tenant|
         %tr
-          %td
-            = tenant.id
           %td
             = tenant.name
           %td

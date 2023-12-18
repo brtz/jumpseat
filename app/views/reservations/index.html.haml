@@ -6,7 +6,6 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
-        %th Id
         %th Start
         %th End
         %th Desk
@@ -15,8 +14,6 @@
     %tbody
       - @reservations.each do |reservation|
         %tr
-          %td
-            = reservation.id
           %td
             = reservation.start_date
           %td

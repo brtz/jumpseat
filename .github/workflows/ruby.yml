@@ -1,0 +1,65 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: ruby
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  ruby_build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: "12TCgAcuIS123sHdLR9z11raOe7sSzRZwTh"
+      ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: "zrj21497x7RV4AAYB2EMWw0GiDSD9I2a3QFfj"
+      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: "awpdafubttSA2InvhhRia3EepLEuasdhbpa213"
+
+    steps:
+      - name: ruby_build_checkout
+        uses: actions/checkout@v4
+      - name: ruby_build_rubysetup
+        uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
+        with:
+          bundler-cache: true
+      - name: ruby_build_dbsetup
+        run: bin/rails db:prepare
+      # - name: Run tests
+      #  run: bin/rake
+
+  ruby_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ruby_lint_checkout
+        uses: actions/checkout@v4
+      - name: ruby_lint_rubysetup
+        uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
+        with:
+          bundler-cache: true
+      # Add or replace any other lints here
+      - name: ruby_lint_bundleraudit
+        run: bundle exec bundler-audit --update
+      - name: ruby_lint_brakeman
+        run: bundle exec brakeman -q -w2
+      - name: ruby_lint_rubocop
+        run: bundle exec rubocop --require rubocop-rails --parallel

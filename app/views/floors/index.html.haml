@@ -7,7 +7,6 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
-        %th Id
         %th Tenant
         %th Location
         %th Name
@@ -15,8 +14,6 @@
     %tbody
       - @floors.each do |floor|
         %tr
-          %td
-            = floor.id
           %td
             = floor.location.tenant.name
           %td
