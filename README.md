@@ -16,7 +16,11 @@ jumpseat allows to manage:
 
 ## Images
 
-when it's done =)
+Container images are available at:
+
+[hub.docker.com brtz/jumpseat](https://hub.docker.com/r/brtz/jumpseat)
+
+They are published on release and tagged by the tag's datetime.
 
 ## Configuration
 
@@ -107,3 +111,4 @@ If you like to keep your DB contents after a restart, remove the comments for vo
 - (bulk delete reservations)
 - (personal api token)
 - omniauthable
+- mails
