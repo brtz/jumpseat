@@ -32,7 +32,6 @@ class LimitationsController < ApplicationController
     if @limitation.save
       redirect_to limitations_path, notice: "Limitation was successfully created."
     else
-      puts limitation_params
       render :new
     end
   end

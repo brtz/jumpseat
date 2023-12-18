@@ -14,25 +14,25 @@ class Limitation < ApplicationRecord
   def remove_stale_reservations
     case limitable_type
     when "Tenant"
-      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date)
+      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date).load_async
       reservations.each do |reservation|
         desk = Desk.find_by(id: reservation.desk_id)
         reservation.destroy if desk.room.floor.location.tenant.id == limitable_id
       end
     when "Location"
-      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date)
+      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date).load_async
       reservations.each do |reservation|
         desk = Desk.find_by(id: reservation.desk_id)
         reservation.destroy if desk.room.floor.location.id == limitable_id
       end
     when "Floor"
-      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date)
+      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date).load_async
       reservations.each do |reservation|
         desk = Desk.find_by(id: reservation.desk_id)
         reservation.destroy if desk.room.floor.id == limitable_id
       end
     when "Room"
-      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date)
+      reservations = Reservation.where("start_date >= ?", start_date).where("end_date <= ?", end_date).load_async
       reservations.each do |reservation|
         desk = Desk.find_by(id: reservation.desk_id)
         reservation.destroy if desk.room.id == limitable_id

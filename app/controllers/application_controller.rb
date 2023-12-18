@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
       else
         patched_params["end_date"] = DateTime.strptime(params["end_date"], "%Y-%m-%dT%H:%M").end_of_day.to_s
       end
-      patched_params["user_id"] = current_user.id if params["user_id"].nil?
+      #patched_params["user_id"] = current_user.id if params["user_id"].nil?
       patched_params
     end
 end
