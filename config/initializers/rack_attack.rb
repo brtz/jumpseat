@@ -7,7 +7,9 @@ class Rack::Attack
 
   ### Configure Cache ###
 
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV.fetch("REDISCLOUD_URL"))
+  if ENV["SECRET_KEY_BASE_DUMMY"] != "1"
+    Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV.fetch("REDISCLOUD_URL"))
+  end
 
   ### Safe IP configuration ###
   Rack::Attack.safelist_ip(safe_ip)

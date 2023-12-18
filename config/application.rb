@@ -34,26 +34,29 @@ module Jumpseat
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.active_record.encryption.extend_queries = true
-
-    config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY")
-    config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY")
-    config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT")
+    # stuff we only set if we are not building
+    if ENV["SECRET_KEY_BASE_DUMMY"] != "1"
+      config.active_record.encryption.extend_queries = true
+      config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY")
+      config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY")
+      config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT")
+      config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
+    end
 
     config.active_record.async_query_executor = :global_thread_pool
     config.active_record.global_executor_concurrency = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 
     config.active_job.queue_adapter = :sidekiq
 
-    config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
-
     config.cache_store = :redis_cache_store, { url: ENV["REDISCLOUD_URL"] }
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.after_initialize do
-      ReservationsCleanupJob.perform_later
-      LimitationsCleanupJob.perform_later
+      if ENV["SECRET_KEY_BASE_DUMMY"] != "1"
+        ReservationsCleanupJob.perform_later
+        LimitationsCleanupJob.perform_later
+      end
     end
   end
 end
