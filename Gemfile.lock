@@ -91,10 +91,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
-    bootstrap (4.3.1)
+    bootstrap (5.3.2)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
+      popper_js (>= 2.11.8, < 3)
     brakeman (6.1.0)
     builder (3.2.4)
     bullet (7.1.4)
@@ -217,7 +216,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    popper_js (1.16.1)
+    popper_js (2.11.8)
     prometheus-client (4.2.2)
     psych (5.1.1.1)
       stringio
@@ -390,7 +389,7 @@ DEPENDENCIES
   async
   bcrypt (~> 3.1.20)
   bootsnap
-  bootstrap (~> 4.3.1)
+  bootstrap (~> 5.3.2)
   brakeman
   bullet
   bundler-audit

@@ -71,7 +71,7 @@ group :test do
 end
 
 gem "async"
-gem "bootstrap", "~> 4.3.1"
+gem "bootstrap", "~> 5.3.2"
 gem "brakeman"
 gem "bundler-audit"
 gem "devise"
