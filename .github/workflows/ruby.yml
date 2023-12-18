@@ -30,6 +30,8 @@ jobs:
           POSTGRES_PASSWORD: password
     env:
       RAILS_ENV: test
+      SECRET_KEY_BASE: "d0a282b9-ec0d-481d-b035-6b180a23a066"
+      RAILS_HOSTS: "localhost:3000,127.0.0.1:3000"
       DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
       ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: "12TCgAcuIS123sHdLR9z11raOe7sSzRZwTh"
       ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: "zrj21497x7RV4AAYB2EMWw0GiDSD9I2a3QFfj"
