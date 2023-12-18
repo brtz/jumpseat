@@ -1,0 +1,29 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "0e53b7f8e9a06959e9c71b673748f787353458ab1139ae3ae2adc643f70abe84",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:page, :email, :password, :first_name, :middle_name, :last_name, :current_position, :admin, :quota_max_reservations)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":admin",
+      "confidence": "High",
+      "cwe_id": [
+        915
+      ],
+      "note": "Not an issue, as the whole controller is only accessible if you already have current_role == admin."
+    }
+  ],
+  "updated": "2023-12-19 00:00:37 +0100",
+  "brakeman_version": "6.1.0"
+}
