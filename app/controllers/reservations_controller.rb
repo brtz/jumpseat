@@ -10,7 +10,7 @@ class ReservationsController < ApplicationController
     if current_user.admin?
       @reservations = Reservation.includes([:desk, :user]).all.order("start_date ASC").page(@page)
     else
-      @reservations = Reservation.includes([:desk, :user]).shared(true).or(Reservation.where("user_id = ?", current_user.id)).order("start_date ASC").page(@page)
+      @reservations = Reservation.limit_user(current_user.id).order("start_date ASC").page(@page)
     end
     respond_to do |format|
       format.html
@@ -31,6 +31,11 @@ class ReservationsController < ApplicationController
   def create
     patched_params = patch_params reservation_params
 
+    if (@current_role != "admin") && (patched_params["user_id"] != current_user.id)
+      head(:forbidden)
+      return
+    end
+
     @reservation = Reservation.new(patched_params)
 
     if @reservation.save
@@ -44,6 +49,11 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1
   def update
     patched_params = patch_params reservation_params
+
+    if (@current_role != "admin") && (patched_params["user_id"] != current_user.id)
+      head(:forbidden)
+      return
+    end
 
     if @reservation.update(patched_params)
       redirect_to reservations_path, notice: "Reservation was successfully updated."

@@ -2,6 +2,7 @@ class Reservation < ApplicationRecord
   self.implicit_order_column = :start_date
 
   scope :shared, ->(bool) { where("shared = ?", bool) }
+  scope :limit_user, ->(user_id) { where("user_id = ?", user_id) }
 
   validate :end_date_needs_to_be_same_day_as_start_date
   validate :user_has_required_position
@@ -9,6 +10,7 @@ class Reservation < ApplicationRecord
   validate :unique_reservation
   validate :users_reservations_quota, on: :create
   validate :users_reservations_per_day
+  validate :ownership
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
