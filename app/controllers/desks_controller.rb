@@ -6,7 +6,7 @@ class DesksController < ApplicationController
 
   # GET /desks
   def index
-    @desks = Desk.includes(room: {floor: {location: :tenant}}).all.page(@page)
+    @desks = Desk.includes(room: { floor: { location: :tenant } }).all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: Desk.all }
@@ -57,7 +57,7 @@ class DesksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def desk_params
-      params.require(:desk).permit(:page, :name, :room_id, :pos_x, :pos_y, :width, :height, :required_position, :limitation_ids => [])
+      params.require(:desk).permit(:page, :name, :room_id, :pos_x, :pos_y, :width, :height, :required_position, limitation_ids: [])
     end
 
     def access_granted

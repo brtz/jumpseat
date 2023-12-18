@@ -59,7 +59,7 @@ class TenantsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def tenant_params
-      params.require(:tenant).permit(:page, :name, :limitation_ids => [])
+      params.require(:tenant).permit(:page, :name, limitation_ids: [])
     end
 
     def access_granted

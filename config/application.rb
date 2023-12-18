@@ -47,7 +47,7 @@ module Jumpseat
 
     config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
 
-    config.cache_store = :redis_cache_store, { url: ENV['REDISCLOUD_URL'] }
+    config.cache_store = :redis_cache_store, { url: ENV["REDISCLOUD_URL"] }
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 

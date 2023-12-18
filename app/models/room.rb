@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Room < ApplicationRecord
   self.implicit_order_column = :created_at
 
@@ -5,7 +7,7 @@ class Room < ApplicationRecord
 
   validates :name, uniqueness: true
   validates :name, length: { in: 2..20 }
-  
+
   # associations
   belongs_to :floor
   has_many :desks, dependent: :destroy

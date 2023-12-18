@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFloors < ActiveRecord::Migration[7.1]
   def change
     create_table :floors, id: :uuid do |t|

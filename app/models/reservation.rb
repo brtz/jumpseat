@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Reservation < ApplicationRecord
   self.implicit_order_column = :start_date
 
@@ -14,7 +16,7 @@ class Reservation < ApplicationRecord
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
   validates :end_date, comparison: { greater_than: :start_date }
-  
+
   belongs_to :desk
   belongs_to :user
 
@@ -53,7 +55,6 @@ class Reservation < ApplicationRecord
   end
 
   def honor_limitations
-    user = User.find_by(id: user_id)
     desk = Desk.find_by(id: desk_id)
     limitations = Limitation.all.load_async
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Limitation < ApplicationRecord
   self.implicit_order_column = :start_date
 

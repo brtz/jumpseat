@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLimitations < ActiveRecord::Migration[7.1]
   def change
     create_table :limitations, id: :uuid do |t|
