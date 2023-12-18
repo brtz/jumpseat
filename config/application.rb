@@ -52,7 +52,6 @@ module Jumpseat
     config.action_controller.enable_fragment_cache_logging = true
 
     config.after_initialize do
-      CalcStatsJob.perform_later
       ReservationsCleanupJob.perform_later
       LimitationsCleanupJob.perform_later
     end

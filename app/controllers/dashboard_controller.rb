@@ -6,27 +6,12 @@ class DashboardController < ApplicationController
   def index
     # dashboard tenants stats are slow, so let's cache them
     @output = Rails.cache.fetch("dashboard/tenant-stats", expires_in: 1.hour) do
-      CalcStatsJob.set(wait: 5.seconds).perform_later
-      output = OpenStruct.new
-      output.tenants = []
-      output.tenants.push({
-        name: "caching in progress",
-        num_locations: 0,
-        num_floors: 0,
-        num_rooms: 0,
-        num_desks: 0,
-        num_reservations: {
-          total: 0,
-          n7d: 0,
-          today: 0
-        }
-      })
-      output
+      calc_tenant_stats
     end
 
     now = DateTime.now.utc
 
-    todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 1.hour) do
+    todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 10.hour) do
       Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
     end
     @in_today = []
@@ -65,5 +50,102 @@ class DashboardController < ApplicationController
       end
       desks
     end
+  end
+
+  private
+
+  def calc_tenant_stats
+    tenants = Tenant.all.load_async
+
+    now = DateTime.now.utc
+    output = OpenStruct.new
+    output.tenants = []
+
+    tenants.each do |tenant|
+      locations = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                    group("id").
+                    where("tenants.id = ?", tenant.id).
+                    count[tenant.id].
+                    to_i
+
+      floors = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                      joins("INNER JOIN floors ON floors.location_id = locations.id").
+                      where("tenants.id = ?", tenant.id).
+                      group("id").
+                      count[tenant.id].
+                      to_i
+
+      rooms = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                joins("INNER JOIN floors ON floors.location_id = locations.id").
+                joins("INNER JOIN rooms ON rooms.floor_id = floors.id").
+                where("tenants.id = ?", tenant.id).
+                group("id").
+                count[tenant.id].
+                to_i
+
+      desks = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                joins("INNER JOIN floors ON floors.location_id = locations.id").
+                joins("INNER JOIN rooms ON rooms.floor_id = floors.id").
+                joins("INNER JOIN desks ON desks.room_id = rooms.id").
+                where("tenants.id = ?", tenant.id).
+                group("id").
+                load_async.
+                count[tenant.id].
+                to_i
+
+      reservations_total = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                            joins("INNER JOIN floors ON floors.location_id = locations.id").
+                            joins("INNER JOIN rooms ON rooms.floor_id = floors.id").
+                            joins("INNER JOIN desks ON desks.room_id = rooms.id").
+                            joins("INNER JOIN reservations ON reservations.desk_id = desks.id").
+                            group("id").
+                            where("tenants.id = ?", tenant.id).
+                            load_async.
+                            count[tenant.id].
+                            to_i
+
+      reservations_n7d = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                          joins("INNER JOIN floors ON floors.location_id = locations.id").
+                          joins("INNER JOIN rooms ON rooms.floor_id = floors.id").
+                          joins("INNER JOIN desks ON desks.room_id = rooms.id").
+                          joins("INNER JOIN reservations ON reservations.desk_id = desks.id").
+                          group("id").
+                          where("tenants.id = ?", tenant.id).
+                          where("start_date >= ?", now.beginning_of_day).
+                          where("end_date <= ?", now.end_of_day + 7.days).
+                          load_async.
+                          count[tenant.id].
+                          to_i
+
+      reservations_today = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
+                            joins("INNER JOIN floors ON floors.location_id = locations.id").
+                            joins("INNER JOIN rooms ON rooms.floor_id = floors.id").
+                            joins("INNER JOIN desks ON desks.room_id = rooms.id").
+                            joins("INNER JOIN reservations ON reservations.desk_id = desks.id").
+                            group("id").
+                            where("tenants.id = ?", tenant.id).
+                            where("start_date >= ?", now.beginning_of_day).
+                            where("end_date <= ?", now.end_of_day).
+                            load_async.
+                            count[tenant.id].
+                            to_i
+
+      output.tenants.push(
+        {
+          name: tenant.name,
+          num_locations: locations,
+          num_floors: floors,
+          num_rooms: rooms,
+          num_desks: desks,
+          num_reservations: {
+            total: reservations_total,
+            n7d: reservations_n7d,
+            today: reservations_today
+          }
+        }
+      )
+    end
+
+    output
   end
 end

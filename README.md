@@ -1,19 +1,6 @@
 # jumpseat
 
 # Todo
-- dashboard
-  - stats per tenant
-    - locations
-    - floors
-    - rooms
-    - desks
-    - reservations
-    - limitations
-    - users
-    - reservations today / tomorrow / this week
-    - who's in today / tomorrow / this week
-  - top 5 desks
-  - top 5 users
 - draw room
   - date picker
   - room picker
