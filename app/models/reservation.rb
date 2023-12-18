@@ -10,7 +10,6 @@ class Reservation < ApplicationRecord
   validate :unique_reservation
   validate :users_reservations_quota, on: :create
   validate :users_reservations_per_day
-  validate :ownership
 
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
