@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
 
     now = DateTime.now.utc
 
-    todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 10.hour) do
+    todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 1.hour) do
       Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
     end
     @in_today = []
