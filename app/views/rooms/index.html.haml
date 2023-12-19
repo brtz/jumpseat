@@ -21,7 +21,7 @@
           %td
             = room.floor.name
           %td
-            = room.name
+            = link_to "#{room.name}", room_path(room)
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

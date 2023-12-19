@@ -10,7 +10,7 @@ class ReservationsController < ApplicationController
     if current_user.admin?
       @reservations = Reservation.includes([:desk, :user]).all.order("start_date ASC").page(@page)
     else
-      @reservations = Reservation.limit_user(current_user.id).order("start_date ASC").page(@page)
+      @reservations = Reservation.limit_user(current_user.id).includes([:desk, :user]).order("start_date ASC").page(@page)
     end
     respond_to do |format|
       format.html
@@ -36,12 +36,36 @@ class ReservationsController < ApplicationController
       return
     end
 
+    # quick reservation
+    if patched_params["desk_id"].nil?
+      # the .to_a is important, as we do not want to call .delete on the collection of Desks
+      available_desks = Desk.includes(room: { floor: { location: :tenant } }).all.load_async.to_a
+      available_desks.delete_if { |desk| desk.room.floor.location.tenant.id != current_user.tenant.id }
+
+      if available_desks.size > 0
+        available_desks.each do |desk|
+          # try to save
+          patched_params["desk_id"] = desk.id
+          @reservation = Reservation.new(patched_params)
+          if @reservation.save
+            redirect_to root_path, notice: "Created new quick reservation."
+            return
+          end
+        end
+        # we have tried every desk, and found none saving successfully
+        redirect_to root_path, alert: "Could not find a suitable desk for quick reservation. Please select manually."
+        return
+      else
+        redirect_to root_path, alert: "Could not find a suitable desk for quick reservation. Please select manually."
+        return
+      end
+    end
+
     @reservation = Reservation.new(patched_params)
 
     if @reservation.save
       redirect_to reservations_path, notice: "Reservation was successfully created."
     else
-      puts reservation_params
       render :new
     end
   end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class RoomsController < ApplicationController
-  before_action :set_room, only: [:edit, :update, :destroy]
-  before_action :access_granted
+  before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :access_granted, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /rooms
   def index
@@ -11,6 +11,11 @@ class RoomsController < ApplicationController
       format.html
       format.json { render json: Room.all }
     end
+  end
+
+  # GET /rooms/1
+  def show
+    puts @room
   end
 
   # GET /rooms/new

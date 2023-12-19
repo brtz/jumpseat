@@ -4,6 +4,9 @@
       = link_to root_path, class: 'list-group-item list-group-item-action' do
         %i.fa-solid.fa-chart-line
         Dashboard
+      = link_to rooms_path, class: 'list-group-item list-group-item-action' do
+        %i.fa-solid.fa-people-roof
+        Rooms
       = link_to reservations_path, class: 'list-group-item list-group-item-action' do
         %i.fa-solid.fa-bookmark
         Reservations
@@ -18,9 +21,6 @@
         = link_to floors_path, class: 'list-group-item list-group-item-action' do
           %i.fa-solid.fa-stairs
           Floors
-        = link_to rooms_path, class: 'list-group-item list-group-item-action' do
-          %i.fa-solid.fa-people-roof
-          Rooms
         = link_to desks_path, class: 'list-group-item list-group-item-action' do
           %i.fa-solid.fa-desktop
           Desks

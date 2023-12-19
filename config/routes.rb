@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :tenants, except: :show
   resources :locations, except: :show
   resources :floors, except: :show
-  resources :rooms, except: :show
+  resources :rooms
   resources :desks, except: :show
   resources :limitations, except: :show
   resources :reservations, except: :show
