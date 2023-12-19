@@ -1,0 +1,14 @@
+= simple_form_for(@profile, as: :user, method: :patch, url: profile_path) do |f|
+  .row
+    .col-md-12
+    
+      = f.input :email, disabled: true, hint: 'You cannot change your email.'
+      = f.input :first_name
+      = f.input :middle_name
+      = f.input :last_name
+      = f.input :tenant_id, collection: Tenant.all, label_method: :name, value_method: :id
+      
+      = f.input :current_position, collection: [:trainee, :apprentice, :employee, :lead, :management], disabled: true, hint: 'You cannot change your position. Please ask an admin if this is wrong.'
+      = f.input :quota_max_reservations, disabled: true, hint: 'You can create as many reservations as this.'
+      
+  = f.button :submit, class: 'btn btn-success'

@@ -112,3 +112,4 @@ If you like to keep your DB contents after a restart, remove the comments for vo
 - (personal api token)
 - omniauthable
 - mails
+- tests
