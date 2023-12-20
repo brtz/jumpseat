@@ -38,6 +38,11 @@ class ReservationsController < ApplicationController
 
     # quick reservation
     if patched_params["desk_id"].nil?
+      if current_user.tenant.nil?
+        redirect_to root_path, alert: "Cannot create a quick reservation without configured user tenant. Please configure tenant in your profile."
+        return
+      end
+
       # the .to_a is important, as we do not want to call .delete on the collection of Desks
       available_desks = Desk.includes(room: { floor: { location: :tenant } }).all.order("RANDOM()").load_async.to_a
       available_desks.delete_if { |desk| desk.room.floor.location.tenant.id != current_user.tenant.id }
