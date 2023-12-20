@@ -52,6 +52,10 @@ module Jumpseat
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
+    config.sass.preferred_syntax = :scss
+    config.sass.line_comments = false
+    config.sass.cache = false
+
     config.after_initialize do
       if ENV["SECRET_KEY_BASE_DUMMY"] != "1"
         ReservationsCleanupJob.perform_later
