@@ -52,7 +52,9 @@ class ReservationsController < ApplicationController
           # try to save
           patched_params["desk_id"] = desk.id
           @reservation = Reservation.new(patched_params)
-          if @reservation.save
+          # check if valid first, then save. this way we reduce the amount of transactions with rollbacks
+          if @reservation.valid?
+            @reservation.save
             redirect_to root_path, notice: "Created new quick reservation."
             return
           end
