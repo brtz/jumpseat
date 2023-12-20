@@ -6,7 +6,7 @@ class TenantsController < ApplicationController
 
   # GET /tenants
   def index
-    @tenants = Tenant.all.page(@page)
+    @tenants = Tenant.order("name ASC").all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: Tenant.all }

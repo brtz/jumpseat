@@ -7,11 +7,11 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
+        %th Name
         %th Tenant
         %th Location
         %th Floor
         %th Room
-        %th Name
         %th X
         %th Y
         %th Width
@@ -21,6 +21,8 @@
       - @desks.each do |desk|
         %tr
           %td
+            = desk.name
+          %td
             = desk.room.floor.location.tenant.name
           %td
             = desk.room.floor.location.name  
@@ -28,8 +30,6 @@
             = desk.room.floor.name
           %td
             = desk.room.name
-          %td
-            = desk.name
           %td
             = desk.pos_x
           %td

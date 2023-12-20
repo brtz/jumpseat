@@ -7,19 +7,19 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
+        %th Name
         %th Tenant
         %th Location
-        %th Name
         %th Level
     %tbody
       - @floors.each do |floor|
         %tr
           %td
+            = floor.name
+          %td
             = floor.location.tenant.name
           %td
             = floor.location.name
-          %td
-            = floor.name
           %td
             = floor.level
           %td

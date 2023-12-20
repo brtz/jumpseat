@@ -7,8 +7,8 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
-        %th Tenant
         %th Name
+        %th Tenant
         %th Street
         %th House number
         %th Zip
@@ -19,9 +19,9 @@
       - @locations.each do |location|
         %tr
           %td
-            = location.tenant.name
-          %td
             = location.name
+          %td
+            = location.tenant.name
           %td
             = location.street
           %td

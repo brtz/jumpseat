@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Location < ApplicationRecord
-  self.implicit_order_column = :created_at
+  self.implicit_order_column = :name
 
   scope :limit_tenant, ->(tenant) { where("tenant_id = ?", tenant.id) }
 
@@ -19,7 +19,6 @@ class Location < ApplicationRecord
   has_many :floors, dependent: :destroy
   has_many :limitations, as: :limitable
 
-  encrypts :name
   encrypts :street
   encrypts :house_number
   encrypts :zip_code

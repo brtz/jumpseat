@@ -6,7 +6,7 @@ class LocationsController < ApplicationController
 
   # GET /locations
   def index
-    @locations = Location.includes([:tenant]).all.page(@page)
+    @locations = Location.includes([:tenant]).order("name ASC").all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: Location.all }

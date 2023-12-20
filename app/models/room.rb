@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Room < ApplicationRecord
-  self.implicit_order_column = :created_at
+  self.implicit_order_column = :name
 
   scope :limit_floor, ->(floor) { where("floor_id = ?", floor.id) }
 
@@ -12,6 +12,4 @@ class Room < ApplicationRecord
   belongs_to :floor
   has_many :desks, dependent: :destroy
   has_many :limitations, as: :limitable
-
-  encrypts :name
 end

@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.includes([:tenant]).all.page(@page)
+    @users = User.includes([:tenant]).order("email ASC").all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: User.all }

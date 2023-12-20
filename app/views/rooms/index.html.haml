@@ -7,21 +7,21 @@
   %table.table.table-striped.table-hover
     %thead
       %tr
+        %th Name
         %th Tenant
         %th Location
         %th Floor
-        %th Name
     %tbody
       - @rooms.each do |room|
         %tr
+          %td
+            = link_to "#{room.name}", room_path(room)
           %td
             = room.floor.location.tenant.name
           %td
             = room.floor.location.name  
           %td
             = room.floor.name
-          %td
-            = link_to "#{room.name}", room_path(room)
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

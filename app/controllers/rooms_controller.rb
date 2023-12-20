@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
 
   # GET /rooms
   def index
-    @rooms = Room.includes(floor: { location: :tenant }).all.page(@page)
+    @rooms = Room.includes(floor: { location: :tenant }).order("name ASC").all.page(@page)
     respond_to do |format|
       format.html
       format.json { render json: Room.all }

@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :lockable,
          :recoverable, :rememberable, :validatable
 
-  self.implicit_order_column = :created_at
+  self.implicit_order_column = :email
 
   validates :email, uniqueness: true
   validates :first_name, length: { in: 2..20 }
