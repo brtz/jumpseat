@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :last_name, length: { in: 2..20 }
 
   # associations
-  belongs_to :tenant, optional: true
+  belongs_to :tenant, optional: true, counter_cache: true
   has_many :reservations, dependent: :destroy
 
   encrypts :first_name

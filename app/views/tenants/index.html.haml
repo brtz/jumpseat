@@ -8,11 +8,14 @@
     %thead
       %tr
         %th Name
+        %th #Locations
     %tbody
       - @tenants.each do |tenant|
         %tr
           %td
             = tenant.name
+          %td
+            = tenant.locations_count
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

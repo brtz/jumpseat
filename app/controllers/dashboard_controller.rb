@@ -63,11 +63,7 @@ class DashboardController < ApplicationController
       output.tenants = []
 
       tenants.each do |tenant|
-        locations = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
-                      group("id").
-                      where("tenants.id = ?", tenant.id).
-                      count[tenant.id].
-                      to_i
+        locations = tenant.locations_count.to_i
 
         floors = Tenant.joins("INNER JOIN locations ON locations.tenant_id = tenants.id").
                         joins("INNER JOIN floors ON floors.location_id = locations.id").

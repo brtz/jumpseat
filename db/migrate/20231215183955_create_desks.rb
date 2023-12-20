@@ -12,6 +12,8 @@ class CreateDesks < ActiveRecord::Migration[7.1]
       t.enum :required_position, default: "employee", null: false, enum_type: :positions
 
       t.timestamps
+
+      t.integer :reservations_count
     end
     add_index :desks, :name, unique: true
   end

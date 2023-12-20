@@ -10,7 +10,7 @@ class Floor < ApplicationRecord
   validates :level, length: { in: 1..10 }
 
   # associations
-  belongs_to :location
+  belongs_to :location, counter_cache: true
   has_many :rooms, dependent: :destroy
   has_many :limitations, as: :limitable
 

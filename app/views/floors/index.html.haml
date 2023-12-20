@@ -11,6 +11,7 @@
         %th Tenant
         %th Location
         %th Level
+        %th #Rooms
     %tbody
       - @floors.each do |floor|
         %tr
@@ -22,6 +23,8 @@
             = floor.location.name
           %td
             = floor.level
+          %td
+            = floor.rooms_count
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

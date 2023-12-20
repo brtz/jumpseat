@@ -17,6 +17,7 @@
         %th Width
         %th Height
         %th Required position
+        %th #Reservations
     %tbody
       - @desks.each do |desk|
         %tr
@@ -40,6 +41,8 @@
             = desk.height
           %td
             = desk.required_position
+          %td
+            = desk.reservations_count
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

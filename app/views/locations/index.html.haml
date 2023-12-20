@@ -15,6 +15,7 @@
         %th City
         %th State
         %th Country
+        %th #Floors
     %tbody
       - @locations.each do |location|
         %tr
@@ -34,6 +35,8 @@
             = location.state
           %td
             = location.country
+          %td
+            = location.floors_count
           %td
             .d-flex.justify-content-end
               - if @current_role == "admin"

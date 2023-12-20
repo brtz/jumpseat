@@ -6,6 +6,8 @@ class CreateRooms < ActiveRecord::Migration[7.1]
       t.string :name
       t.references :floor, null: false, foreign_key: true, type: :uuid
 
+      t.integer :desks_count
+
       t.timestamps
     end
   end

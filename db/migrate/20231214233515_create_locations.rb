@@ -12,6 +12,8 @@ class CreateLocations < ActiveRecord::Migration[7.1]
       t.string :name
       t.references :tenant, null: false, foreign_key: true, type: :uuid
 
+      t.integer :floors_count
+
       t.timestamps
     end
     add_index :locations, :name, unique: true

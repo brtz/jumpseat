@@ -10,7 +10,7 @@ class Desk < ApplicationRecord
   validates :required_position, inclusion: { in: %w(trainee apprentice employee lead management), message: "%{value} is not a valid position" }
 
   # associations
-  belongs_to :room
+  belongs_to :room, counter_cache: true
   has_many :limitations, as: :limitable
   has_many :reservations, dependent: :destroy
 end

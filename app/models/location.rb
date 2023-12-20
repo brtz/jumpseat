@@ -15,7 +15,7 @@ class Location < ApplicationRecord
   validates :country, length: { in: 2..20 }
 
   # associations
-  belongs_to :tenant
+  belongs_to :tenant, counter_cache: true
   has_many :floors, dependent: :destroy
   has_many :limitations, as: :limitable
 

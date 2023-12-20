@@ -9,7 +9,7 @@ class Room < ApplicationRecord
   validates :name, length: { in: 2..20 }
 
   # associations
-  belongs_to :floor
+  belongs_to :floor, counter_cache: true
   has_many :desks, dependent: :destroy
   has_many :limitations, as: :limitable
 end

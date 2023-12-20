@@ -17,8 +17,8 @@ class Reservation < ApplicationRecord
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
   validates :end_date, comparison: { greater_than: :start_date }
 
-  belongs_to :desk
-  belongs_to :user
+  belongs_to :desk, counter_cache: true
+  belongs_to :user, counter_cache: true
 
   def end_date_needs_to_be_same_day_as_start_date
     if end_date > start_date.end_of_day
