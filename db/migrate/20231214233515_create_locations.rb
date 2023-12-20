@@ -12,7 +12,7 @@ class CreateLocations < ActiveRecord::Migration[7.1]
       t.string :name
       t.references :tenant, null: false, foreign_key: true, type: :uuid
 
-      t.integer :floors_count
+      t.integer :floors_count, default: 0
 
       t.timestamps
     end

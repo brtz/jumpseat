@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
     t.enum "required_position", default: "employee", null: false, enum_type: "positions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "reservations_count"
+    t.integer "reservations_count", default: 0
     t.index ["name"], name: "index_desks_on_name", unique: true
     t.index ["room_id"], name: "index_desks_on_room_id"
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
     t.string "level"
     t.string "name"
     t.uuid "location_id", null: false
-    t.integer "rooms_count"
+    t.integer "rooms_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_floors_on_location_id"
@@ -66,7 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
     t.string "country"
     t.string "name"
     t.uuid "tenant_id", null: false
-    t.integer "floors_count"
+    t.integer "floors_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_locations_on_name", unique: true
@@ -88,7 +88,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
   create_table "rooms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "floor_id", null: false
-    t.integer "desks_count"
+    t.integer "desks_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["floor_id"], name: "index_rooms_on_floor_id"
@@ -96,8 +96,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
-    t.integer "users_count"
-    t.integer "locations_count"
+    t.integer "users_count", default: 0
+    t.integer "locations_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
     t.string "last_name", null: false
     t.boolean "admin", default: false
     t.integer "quota_max_reservations", default: 45
-    t.integer "reservations_count"
+    t.integer "reservations_count", default: 0
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

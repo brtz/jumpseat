@@ -13,7 +13,7 @@ class CreateDesks < ActiveRecord::Migration[7.1]
 
       t.timestamps
 
-      t.integer :reservations_count
+      t.integer :reservations_count, default: 0
     end
     add_index :desks, :name, unique: true
   end

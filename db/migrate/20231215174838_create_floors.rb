@@ -7,7 +7,7 @@ class CreateFloors < ActiveRecord::Migration[7.1]
       t.string :name
       t.references :location, null: false, foreign_key: true, type: :uuid
 
-      t.integer :rooms_count
+      t.integer :rooms_count, default: 0
 
       t.timestamps
     end

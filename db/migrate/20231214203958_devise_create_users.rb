@@ -16,7 +16,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.1]
       t.string :last_name, null: false
       t.boolean :admin, default: false
       t.integer :quota_max_reservations, default: 45
-      t.integer :reservations_count
+      t.integer :reservations_count, default: 0
 
       ## Recoverable
       t.string   :reset_password_token
