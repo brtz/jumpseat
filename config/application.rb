@@ -37,10 +37,10 @@ module Jumpseat
     # stuff we only set if we are not building
     if ENV["SECRET_KEY_BASE_DUMMY"] != "1"
       config.active_record.encryption.extend_queries = true
-      config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY")
-      config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY")
-      config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT")
-      config.hosts = [] + ENV.fetch("RAILS_HOSTS").split(",").map(&:strip)
+      config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY", "")
+      config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY", "")
+      config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT", "")
+      config.hosts = [] + ENV.fetch("RAILS_HOSTS", "").split(",").map(&:strip)
     end
 
     config.active_record.async_query_executor = :global_thread_pool
