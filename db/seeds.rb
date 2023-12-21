@@ -20,9 +20,9 @@ if ENV["RAILS_ENV"] == "development"
   thirteenth = Floor.create(name: "13th floor", level: "13", location: home)
   darkroom = Room.create(name: "Darkroom", floor: thirteenth)
   lightroom = Room.create(name: "Lightroom", floor: thirteenth)
-  desk1 = Desk.create(name: "Desk 1", room: darkroom, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
-  desk2 = Desk.create(name: "Desk 2", room: darkroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
-  desk3 = Desk.create(name: "Desk 3", room: lightroom, pos_x: 0, pos_y: 70, width: 40, height: 60, required_position: "employee")
+  desk1 = Desk.create(name: "Desk 1", room: darkroom, pos_x: 1, pos_y: 1, required_position: "employee")
+  desk2 = Desk.create(name: "Desk 2", room: darkroom, pos_x: 1, pos_y: 2, required_position: "employee")
+  desk3 = Desk.create(name: "Desk 3", room: lightroom, pos_x: 1, pos_y: 1, required_position: "employee")
   christmas = Limitation.create(name: "ACME Christmas", start_date: "2023-12-24T000000", end_date: "2023-12-27T000000")
   acme.limitation_ids = [christmas.id]
   acme.save
@@ -46,7 +46,7 @@ if ENV["RAILS_ENV"] == "development"
         for l in 1..3 do
           room = Room.create(name: "room-#{i}-#{j}-#{k}-#{l}", floor:)
           for m in 1..4 do
-            Desk.create(name: "desk-#{i}-#{j}-#{k}-#{l}-#{m}", room:, pos_x: 0, pos_y: 0, width: 40, height: 60, required_position: "employee")
+            Desk.create(name: "desk-#{i}-#{j}-#{k}-#{l}-#{m}", room:, pos_x: m, pos_y: m, required_position: "employee")
             # users.each do |user|
             #   for o in 1..2 do
             #     Reservation.create(start_date: (DateTime.now.utc + (o).days).beginning_of_day, end_date: (DateTime.now.utc + (o).days).end_of_day, user: user, desk: desk)

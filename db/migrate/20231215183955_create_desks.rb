@@ -5,10 +5,8 @@ class CreateDesks < ActiveRecord::Migration[7.1]
     create_table :desks, id: :uuid do |t|
       t.string :name
       t.references :room, null: false, foreign_key: true, type: :uuid
-      t.integer :pos_x
-      t.integer :pos_y
-      t.integer :width
-      t.integer :height
+      t.integer :pos_x, default: 1
+      t.integer :pos_y, default: 1
       t.enum :required_position, default: "employee", null: false, enum_type: :positions
 
       t.timestamps

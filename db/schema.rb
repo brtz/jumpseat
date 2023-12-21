@@ -22,10 +22,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_16_032418) do
   create_table "desks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "room_id", null: false
-    t.integer "pos_x"
-    t.integer "pos_y"
-    t.integer "width"
-    t.integer "height"
+    t.integer "pos_x", default: 1
+    t.integer "pos_y", default: 1
     t.enum "required_position", default: "employee", null: false, enum_type: "positions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

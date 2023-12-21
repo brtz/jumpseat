@@ -16,7 +16,7 @@
       - @rooms.each do |room|
         %tr
           %td
-            = link_to "#{room.name}", room_path(room)
+            = link_to "#{room.name}", room_path(:id => room.id, :start_date => (DateTime.now.utc.beginning_of_day + 1.day).strftime("%Y-%m-%dT%H:%M"))
           %td
             = room.floor.location.tenant.name
           %td

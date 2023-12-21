@@ -3,12 +3,10 @@
     .col-md-12
     
       = f.input :name
-      = f.input :room_id, collection: Room.all, label_method: :name, value_method: :id
+      = f.input :room_id, collection: Room.order("name ASC").all, label_method: :name, value_method: :id
       = f.input :pos_x
       = f.input :pos_y
-      = f.input :width
-      = f.input :height
       = f.input :required_position, collection: [:trainee, :apprentice, :employee, :lead, :management]
-      = f.association :limitations, collection: Limitation.all, as: :check_boxes, label_method: :name, value_method: :id, include_blank: false
+      = f.association :limitations, collection: Limitation.order("name ASC").all, as: :check_boxes, label_method: :name, value_method: :id, include_blank: false
 
   = f.button :submit, class: 'btn btn-success'

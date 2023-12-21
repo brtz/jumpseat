@@ -3,9 +3,9 @@
     .col-md-12
     
       = f.input :start_date, as: :datetime, html5: true, input_html: { value: DateTime.now.utc.beginning_of_day + 1.day }
-      = f.input :desk_id, collection: Desk.all, label_method: :name, value_method: :id
+      = f.input :desk_id, collection: Desk.order("name ASC").all, label_method: :name, value_method: :id
       - if @current_role == "admin"
-        = f.input :user_id, collection: User.all, label_method: :email, value_method: :id
+        = f.input :user_id, collection: User.order("email ASC").all, label_method: :email, value_method: :id
       - else
         = f.input :user_id, as: :hidden, input_html: { value: @current_user.id }
       = f.input :shared

@@ -1,4 +1,29 @@
 %h2
   Room
   = @room.name
-  
+
+= simple_form_for(@room, method: :get, url: room_path(:id => @room.id)) do |f|
+  = f.input :start_date, as: :datetime, html5: true, input_html: { name: "start_date", value: @start_date }
+  = f.button :submit, 'Change date', class: 'btn btn-success'
+
+%br
+%br
+%table.table-bordered
+  - puts @map
+  - (0..@map["height"]).each do |i|
+    %tr{ :style => "height: 100px" }
+      - (0..@map["width"]).each do |j|
+        %td{ :style => "width: 100px" }
+          - @map["desks"].each do |desk|
+            - if (desk["pos_x"] == j) && (desk["pos_y"] == i)
+              - if desk["status"] == "available"
+                %div{ :style => "background-color: #aeff9c; width: 100px; height: 100px; padding: 0; margin: 0"}
+                  = desk["name"]
+                  = simple_form_for Reservation.new do |f|
+                    = f.input :desk_id, as: :hidden, input_html: { value: desk["id"] }
+                    = f.input :start_date, as: :hidden, input_html: { value: @start_date }
+                    = f.input :user_id, as: :hidden, input_html: { value: @current_user.id }
+                    = f.button :submit, 'Reserve', class: 'btn btn-success w-100 h-100'
+              - else
+                %div{ :style => "background-color: #ff9c9c; width: 100px; height: 100px; padding: 0; margin: 0"}
+                  = desk["name"]

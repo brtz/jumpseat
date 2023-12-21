@@ -15,7 +15,44 @@ class RoomsController < ApplicationController
 
   # GET /rooms/1
   def show
-    puts @room
+    params.permit(:id, :start_date)
+    @start_date = DateTime.strptime(params["start_date"], "%Y-%m-%dT%H:%M").beginning_of_day
+    end_date = @start_date.end_of_day
+
+    desks = Desk.where("room_id = ?", @room.id).order("pos_x, pos_y ASC").all.load_async
+    desk_ids = desks.map(&:id)
+    reservations = Reservation.where(desk_id: desk_ids).where("start_date >= ?", @start_date).where("end_date <= ?", end_date).group(:desk_id).count
+
+    @map = {}
+    @map["width"] = 0
+    @map["height"] = 0
+    @map["desks"] = []
+    desks.each do |desk|
+      status = "available"
+      status = "unavailable" if (!reservations[desk.id].nil?) && (reservations[desk.id] > 0)
+      if status == "available"
+        # try to validate a reservation
+        reservation = Reservation.new(start_date: @start_date, end_date:, user: current_user, desk:)
+        status = "unavailable" if !reservation.valid?
+      end
+
+      entry = {}
+      entry["id"] = desk.id
+      entry["name"] = desk.name
+      entry["pos_x"] = desk.pos_x
+      entry["pos_y"] = desk.pos_y
+      entry["status"] = status
+
+      @map["desks"].push(entry)
+
+      @map["width"] = @map["width"] + 1 if desk.pos_x > @map["width"]
+      @map["height"] = @map["height"] + 1 if desk.pos_y > @map["height"]
+    end
+
+    # we add one as a border here
+    @map["width"] = @map["width"] + 1
+    @map["height"] = @map["height"] + 1
+    @map
   end
 
   # GET /rooms/new

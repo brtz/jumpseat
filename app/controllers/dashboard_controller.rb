@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
     now = DateTime.now.utc
 
     todays_reservations = Rails.cache.fetch("dashboard/todays-reservations", expires_in: 1.hour) do
-      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user])
+      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day).where("end_date <= ?", now.end_of_day).includes([:user]).all.to_a
     end
     @in_today = []
     todays_reservations.each do |reservation|
@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
     end
 
     tomorrows_reservations = Rails.cache.fetch("dashboard/tomorrows-reservations", expires_in: 1.hour) do
-      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user])
+      Reservation.shared(true).where("start_date >= ?", now.beginning_of_day + 1.day).where("end_date <= ?", now.end_of_day + 1.day).includes([:user]).all.to_a
     end
     @in_tomorrow = []
     tomorrows_reservations.each do |reservation|

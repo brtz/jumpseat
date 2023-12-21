@@ -6,16 +6,16 @@ class Reservation < ApplicationRecord
   scope :shared, ->(bool) { where("shared = ?", bool) }
   scope :limit_user, ->(user_id) { where("user_id = ?", user_id) }
 
-  validate :end_date_needs_to_be_same_day_as_start_date
-  validate :user_has_required_position
-  validate :honor_limitations
-  validate :unique_reservation
-  validate :users_reservations_quota, on: :create
-  validate :users_reservations_per_day
-
   validates :start_date, comparison: { greater_than: DateTime.now.utc }
   validates :start_date, comparison: { less_than: DateTime.now.utc + 3.month }
   validates :end_date, comparison: { greater_than: :start_date }
+
+  validate :end_date_needs_to_be_same_day_as_start_date
+  validate :user_has_required_position
+  validate :unique_reservation
+  validate :users_reservations_quota, on: :create
+  validate :users_reservations_per_day
+  validate :honor_limitations
 
   belongs_to :desk, counter_cache: true
   belongs_to :user, counter_cache: true
