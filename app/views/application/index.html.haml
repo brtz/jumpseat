@@ -38,13 +38,13 @@
         .card.mb-auto
           .card-body
             %h5.card-title
-              Quick reservation
+              Quick Reservation
             %i.fa-solid.fa-circle-info
             %p Choose a date you would like to reserve a desk on. It will pick a random free desk from your tenant.
             = simple_form_for Reservation.new do |f|
               = f.input :start_date, as: :datetime, html5: true, input_html: { value: DateTime.now.utc.beginning_of_day + 1.day }
               = f.input :user_id, as: :hidden, input_html: { value: @current_user.id }
-              = f.button :submit, class: 'btn btn-success'
+              = f.button :submit, 'Create Quick Reservation', class: 'btn btn-success'
 
     .d-flex.flow-row.mb-3
       .d-flex.flex-column.mb-3.w-100
