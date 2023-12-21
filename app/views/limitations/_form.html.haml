@@ -3,7 +3,7 @@
     .col-md-12
     
       = f.input :name
-      = f.input :start_date, as: :datetime, html5: true, input_html: { value: DateTime.now.utc.beginning_of_day + 1.day }
-      = f.input :end_date, as: :datetime, html5: true, input_html: { value: DateTime.now.utc.beginning_of_day + 2.days }
+      = f.input :start_date, as: :datetime, html5: true
+      = f.input :end_date, as: :datetime, html5: true
 
   = f.button :submit, class: 'btn btn-success'

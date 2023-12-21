@@ -2,7 +2,7 @@
   .row
     .col-md-12
     
-      = f.input :start_date, as: :datetime, html5: true, input_html: { value: DateTime.now.utc.beginning_of_day + 1.day }
+      = f.input :start_date, as: :datetime, html5: true
       = f.input :desk_id, collection: Desk.order("name ASC").all, label_method: :name, value_method: :id
       - if @current_role == "admin"
         = f.input :user_id, collection: User.order("email ASC").all, label_method: :email, value_method: :id
