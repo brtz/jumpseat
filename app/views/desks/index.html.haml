@@ -28,7 +28,7 @@
           %td
             = desk.room.floor.name
           %td
-            = desk.room.name
+            = link_to "#{desk.room.name}", room_path(:id => desk.room.id, :start_date => (DateTime.now.utc.beginning_of_day + 1.day).strftime("%Y-%m-%dT%H:%M"))
           %td
             = desk.pos_x
           %td

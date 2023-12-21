@@ -12,7 +12,7 @@
     .container-fluid
       .row
         = render partial: 'shared/sidebar' if user_signed_in?
-        %main.ml-sm-auto.pt-3.px-4{role: :main, class: user_signed_in? ? 'col-md-11' : 'col-md-12'}
+        %main.ml-sm-auto.pt-3.px-4{role: :main, class: user_signed_in? ? 'col-md-10' : 'col-md-12'}
           = flash_messages
           = yield
     #modal-holder
