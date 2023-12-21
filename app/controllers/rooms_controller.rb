@@ -45,8 +45,8 @@ class RoomsController < ApplicationController
 
       @map["desks"].push(entry)
 
-      @map["width"] = @map["width"] + 1 if desk.pos_x > @map["width"]
-      @map["height"] = @map["height"] + 1 if desk.pos_y > @map["height"]
+      @map["width"] = desk.pos_x if desk.pos_x >= @map["width"]
+      @map["height"] = desk.pos_y if desk.pos_y >= @map["height"]
     end
 
     # we add one as a border here
