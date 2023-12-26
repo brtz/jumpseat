@@ -92,9 +92,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
-    bootstrap (4.3.1)
+    bootstrap (4.6.2)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
+      popper_js (>= 1.16.1, < 2)
       sassc-rails (>= 2.0.0)
     brakeman (6.1.1)
       racc
@@ -417,7 +417,7 @@ DEPENDENCIES
   async
   bcrypt (~> 3.1.20)
   bootsnap
-  bootstrap (~> 4.3.1)
+  bootstrap (~> 4.6.2)
   brakeman
   bullet
   bundler-audit
