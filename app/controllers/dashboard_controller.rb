@@ -86,7 +86,6 @@ class DashboardController < ApplicationController
                   joins("INNER JOIN desks ON desks.room_id = rooms.id").
                   where("tenants.id = ?", tenant.id).
                   group("id").
-                  load_async.
                   count[tenant.id].
                   to_i
 
@@ -97,7 +96,6 @@ class DashboardController < ApplicationController
                               joins("INNER JOIN reservations ON reservations.desk_id = desks.id").
                               group("id").
                               where("tenants.id = ?", tenant.id).
-                              load_async.
                               count[tenant.id].
                               to_i
 
@@ -110,7 +108,6 @@ class DashboardController < ApplicationController
                             where("tenants.id = ?", tenant.id).
                             where("start_date >= ?", now.beginning_of_day).
                             where("end_date <= ?", now.end_of_day + 7.days).
-                            load_async.
                             count[tenant.id].
                             to_i
 
@@ -123,7 +120,6 @@ class DashboardController < ApplicationController
                               where("tenants.id = ?", tenant.id).
                               where("start_date >= ?", now.beginning_of_day).
                               where("end_date <= ?", now.end_of_day).
-                              load_async.
                               count[tenant.id].
                               to_i
 
