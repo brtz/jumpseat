@@ -22,7 +22,7 @@ jobs:
         run: echo "FLATTENED_TAG=${{ vars.DOCKER_REPO_JUMPSEAT }}:release-$(git log -1 --format=%cd --date=format:%Y%m%dh%H%M%S)" >> $GITHUB_ENV
 
       - name: publish_jumpseat_on_release_publish_to_dockerhub_buildandpublish
-        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
+        uses: docker/build-push-action@af5a7ed5ba88268d5278f7203fb52cd833f66d6e
         with:
           context: .
           file: ./Dockerfile
