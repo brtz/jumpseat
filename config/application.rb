@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 
 if ["development"].include? ENV["RAILS_ENV"]
   begin
-    Dotenv::Railtie.load
+    Dotenv::Rails.load
   rescue
     puts "Failed to load .env"
   end
