@@ -46,7 +46,7 @@ jobs:
       - name: ruby_build_checkout
         uses: actions/checkout@v4
       - name: ruby_build_rubysetup
-        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
+        uses: ruby/setup-ruby@1198b074305f9356bd56dd4b311757cc0dab2f1c # v1.175.1
         with:
           bundler-cache: true
       - name: ruby_build_dbsetup
@@ -60,7 +60,7 @@ jobs:
       - name: ruby_lint_checkout
         uses: actions/checkout@v4
       - name: ruby_lint_rubysetup
-        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
+        uses: ruby/setup-ruby@1198b074305f9356bd56dd4b311757cc0dab2f1c # v1.175.1
         with:
           bundler-cache: true
       # Add or replace any other lints here
