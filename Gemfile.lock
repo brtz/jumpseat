@@ -159,7 +159,6 @@ GEM
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86-linux-gnu)
     ffi (1.17.0-x86-linux-musl)
-    ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     ffi (1.17.0-x86_64-linux-musl)
     fiber-annotation (0.2.0)
@@ -249,15 +248,13 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.6-x86-linux)
       racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     oj (3.16.4)
       bigdecimal (>= 3.0)
     orm_adapter (0.5.0)
     parallel (1.25.1)
-    parser (3.3.3.0)
+    parser (3.3.4.0)
       ast (~> 2.4.1)
       racc
     pg (1.5.6)
@@ -328,13 +325,13 @@ GEM
       railties (>= 5.2)
     rexml (3.3.1)
       strscan
-    rubocop (1.64.1)
+    rubocop (1.65.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8, < 3.0)
+      regexp_parser (>= 2.4, < 3.0)
       rexml (>= 3.2.5, < 4.0)
       rubocop-ast (>= 1.31.1, < 2.0)
       ruby-progressbar (~> 1.7)
@@ -442,7 +439,7 @@ PLATFORMS
   x86-linux
   x86-linux-gnu
   x86-linux-musl
-  x86_64-darwin
+  x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
 
